@@ -5,6 +5,7 @@ import { questions } from '../data/questions';
 import { Answers, AnswerLevel } from '../types/diagnosis';
 import { calculateScores, determineTypeCode } from '../utils/diagnosis';
 import { applySeoMeta } from '../utils/seo';
+import { saveDiagnosisResult } from '../lib/database';
 
 const QUESTIONS_PER_PAGE = 5;
 const TOTAL_PAGES = 8;
@@ -119,13 +120,24 @@ export default function DiagnosisPage() {
     });
   };
 
-  const handleNext = () => {
+  const handleNext = async () => {
     if (!allCurrentPageAnswered) return;
 
     if (isLastPage) {
       const scores = calculateScores(questions, answers);
       const typeCode = determineTypeCode(scores);
-      navigate(`/result?type=${typeCode}`, { state: { scores } });
+
+      try {
+        const { data } = await saveDiagnosisResult(typeCode, answers, scores);
+        navigate(`/result?type=${typeCode}`, {
+          state: {
+            scores,
+            diagnosisResultId: data?.id || null
+          }
+        });
+      } catch (err) {
+        navigate(`/result?type=${typeCode}`, { state: { scores } });
+      }
     } else {
       setCurrentPage(currentPage + 1);
     }

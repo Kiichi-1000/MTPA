@@ -1,10 +1,11 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams, useLocation } from 'react-router-dom';
-import { Share2, RotateCcw } from 'lucide-react';
+import { Share2, RotateCcw, Star, MessageCircle } from 'lucide-react';
 import { MASK_TYPES } from '../data/maskTypes';
 import { isValidTypeCode } from '../utils/diagnosis';
 import { MaskTypeCode, Scores } from '../types/diagnosis';
 import { applySeoMeta } from '../utils/seo';
+import { saveFeedback } from '../lib/database';
 
 interface AxisPercentage {
   name: string;
@@ -32,6 +33,13 @@ export default function ResultPage() {
   const [searchParams] = useSearchParams();
   const typeParam = searchParams.get('type');
   const scores = location.state?.scores as Scores | undefined;
+  const diagnosisResultId = location.state?.diagnosisResultId as string | undefined;
+
+  const [rating, setRating] = useState<number>(0);
+  const [hoveredRating, setHoveredRating] = useState<number>(0);
+  const [comment, setComment] = useState<string>('');
+  const [feedbackSubmitted, setFeedbackSubmitted] = useState<boolean>(false);
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -117,8 +125,35 @@ export default function ResultPage() {
       await navigator.clipboard.writeText(url);
       alert('リンクをコピーしました！');
     } catch {
-      // Fallback: prompt lets the user copy manually (works even without Clipboard API).
       window.prompt('リンクをコピーしてください', url);
+    }
+  };
+
+  const handleSubmitFeedback = async () => {
+    if (rating === 0) {
+      alert('満足度を選択してください');
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      const { error } = await saveFeedback(
+        rating,
+        comment.trim() || null,
+        diagnosisResultId || null
+      );
+
+      if (error) {
+        throw error;
+      }
+
+      setFeedbackSubmitted(true);
+      alert('フィードバックをお送りいただき、ありがとうございました！');
+    } catch (err) {
+      alert('フィードバックの送信に失敗しました。もう一度お試しください。');
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -494,6 +529,77 @@ export default function ResultPage() {
               リンクをコピー
             </button>
           </div>
+        </div>
+
+        <div className="bg-white rounded-2xl shadow-lg p-8 mb-6">
+          <h3 className="text-xl font-bold text-slate-800 mb-4 flex items-center gap-2">
+            <MessageCircle className="w-6 h-6" />
+            フィードバック
+          </h3>
+          {!feedbackSubmitted ? (
+            <div className="space-y-4">
+              <div>
+                <p className="text-slate-700 mb-3">診断結果に満足しましたか？</p>
+                <div className="flex items-center gap-2">
+                  {[1, 2, 3, 4, 5].map((value) => (
+                    <button
+                      key={value}
+                      type="button"
+                      onMouseEnter={() => setHoveredRating(value)}
+                      onMouseLeave={() => setHoveredRating(0)}
+                      onClick={() => setRating(value)}
+                      className="transition-transform hover:scale-110 focus:outline-none"
+                      disabled={isSubmitting}
+                    >
+                      <Star
+                        className={`w-10 h-10 ${
+                          value <= (hoveredRating || rating)
+                            ? 'fill-yellow-400 text-yellow-400'
+                            : 'text-slate-300'
+                        } transition-colors`}
+                      />
+                    </button>
+                  ))}
+                  {rating > 0 && (
+                    <span className="ml-2 text-slate-600 font-medium">
+                      {rating === 1 && '不満'}
+                      {rating === 2 && 'やや不満'}
+                      {rating === 3 && '普通'}
+                      {rating === 4 && '満足'}
+                      {rating === 5 && 'とても満足'}
+                    </span>
+                  )}
+                </div>
+              </div>
+              <div>
+                <label htmlFor="feedback-comment" className="block text-slate-700 mb-2">
+                  コメント（任意）
+                </label>
+                <textarea
+                  id="feedback-comment"
+                  value={comment}
+                  onChange={(e) => setComment(e.target.value)}
+                  placeholder="診断についてのご意見やご感想をお聞かせください"
+                  rows={4}
+                  className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-slate-500 focus:border-transparent transition-all resize-none"
+                  disabled={isSubmitting}
+                />
+              </div>
+              <button
+                onClick={handleSubmitFeedback}
+                disabled={isSubmitting || rating === 0}
+                className="w-full bg-slate-800 hover:bg-slate-700 text-white font-semibold px-6 py-3 rounded-lg transition-colors duration-200 disabled:bg-slate-400 disabled:cursor-not-allowed"
+              >
+                {isSubmitting ? '送信中...' : 'フィードバックを送信'}
+              </button>
+            </div>
+          ) : (
+            <div className="bg-green-50 border border-green-200 rounded-lg p-6 text-center">
+              <p className="text-green-800 font-medium text-lg">
+                フィードバックをお送りいただき、ありがとうございました！
+              </p>
+            </div>
+          )}
         </div>
 
         <div className="text-center">
