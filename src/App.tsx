@@ -1,5 +1,5 @@
 import { Suspense, lazy } from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { HashRouter, Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
 import Footer from './components/Footer';
 
@@ -14,7 +14,7 @@ const DisclaimerPage = lazy(() => import('./pages/DisclaimerPage'));
 
 function App() {
   return (
-    <BrowserRouter>
+    <HashRouter>
       <div className="flex flex-col min-h-screen">
         <Header />
         <main className="flex-grow">
@@ -33,7 +33,7 @@ function App() {
         </main>
         <Footer />
       </div>
-    </BrowserRouter>
+    </HashRouter>
   );
 }
 
