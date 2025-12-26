@@ -4,6 +4,7 @@ import { Share2, RotateCcw } from 'lucide-react';
 import { MASK_TYPES } from '../data/maskTypes';
 import { isValidTypeCode } from '../utils/diagnosis';
 import { MaskTypeCode, Scores } from '../types/diagnosis';
+import { applySeoMeta } from '../utils/seo';
 
 interface AxisPercentage {
   name: string;
@@ -45,6 +46,15 @@ export default function ResultPage() {
   }
 
   const maskType = MASK_TYPES[typeParam as MaskTypeCode];
+
+  useEffect(() => {
+    applySeoMeta({
+      title: `${maskType.name}（${maskType.code}）の診断結果 - 仮面診断`,
+      description: `${maskType.name}（${maskType.code}）の特徴・強み・弱み・学校/職場での傾向をまとめた診断結果ページです。`,
+      canonicalUrl: `${window.location.origin}/result?type=${maskType.code}`,
+      ogImageUrl: `${window.location.origin}/og.svg`,
+    });
+  }, [maskType.code, maskType.name]);
 
   const axisPercentages: AxisPercentage[] | null = scores ? [
     {
@@ -98,9 +108,18 @@ export default function ResultPage() {
     }
   };
 
-  const handleCopyLink = () => {
-    navigator.clipboard.writeText(window.location.href);
-    alert('リンクをコピーしました！');
+  const handleCopyLink = async () => {
+    const url = window.location.href;
+    try {
+      if (!navigator.clipboard?.writeText) {
+        throw new Error('clipboard_not_available');
+      }
+      await navigator.clipboard.writeText(url);
+      alert('リンクをコピーしました！');
+    } catch {
+      // Fallback: prompt lets the user copy manually (works even without Clipboard API).
+      window.prompt('リンクをコピーしてください', url);
+    }
   };
 
   return (
@@ -121,6 +140,10 @@ export default function ResultPage() {
                   <img
                     src={maskType.image}
                     alt={maskType.name}
+                    loading="eager"
+                    decoding="async"
+                    width={256}
+                    height={256}
                     className="w-full h-full object-cover object-top"
                   />
                 </div>
@@ -326,62 +349,6 @@ export default function ResultPage() {
                           </li>
                         ))}
                       </ul>
-                    </div>
-                  )}
-
-                  {maskType.details.compatibility && (
-                    <div className="border-t border-slate-200 pt-8 mb-8">
-                      <h3 className="text-xl font-bold text-slate-800 mb-4">
-                        相性
-                      </h3>
-
-                      {maskType.details.compatibility.good && maskType.details.compatibility.good.length > 0 && (
-                        <div className="mb-6">
-                          <h4 className="text-lg font-semibold text-green-700 mb-3">
-                            相性が良い（シナジー）
-                          </h4>
-                          <ul className="space-y-2">
-                            {maskType.details.compatibility.good.map((item, index) => (
-                              <li key={index} className="flex gap-3 bg-green-50 rounded-lg p-3">
-                                <span className="text-green-600 mt-0.5 flex-shrink-0">✓</span>
-                                <span className="text-slate-700 leading-relaxed text-sm">{item}</span>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      )}
-
-                      {maskType.details.compatibility.moderate && maskType.details.compatibility.moderate.length > 0 && (
-                        <div className="mb-6">
-                          <h4 className="text-lg font-semibold text-blue-700 mb-3">
-                            育つ相性（良いが調整が必要）
-                          </h4>
-                          <ul className="space-y-2">
-                            {maskType.details.compatibility.moderate.map((item, index) => (
-                              <li key={index} className="flex gap-3 bg-blue-50 rounded-lg p-3">
-                                <span className="text-blue-600 mt-0.5 flex-shrink-0">◆</span>
-                                <span className="text-slate-700 leading-relaxed text-sm">{item}</span>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      )}
-
-                      {maskType.details.compatibility.challenging && maskType.details.compatibility.challenging.length > 0 && (
-                        <div>
-                          <h4 className="text-lg font-semibold text-orange-700 mb-3">
-                            摩擦が起きやすい（注意）
-                          </h4>
-                          <ul className="space-y-2">
-                            {maskType.details.compatibility.challenging.map((item, index) => (
-                              <li key={index} className="flex gap-3 bg-orange-50 rounded-lg p-3">
-                                <span className="text-orange-600 mt-0.5 flex-shrink-0">▲</span>
-                                <span className="text-slate-700 leading-relaxed text-sm">{item}</span>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      )}
                     </div>
                   )}
 

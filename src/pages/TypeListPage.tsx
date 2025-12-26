@@ -1,7 +1,10 @@
+import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { MASK_TYPES } from '../data/maskTypes';
 import { MaskTypeCode } from '../types/diagnosis';
 import { Users, Target, Heart, Sparkles } from 'lucide-react';
+import { applySeoMeta } from '../utils/seo';
+import TermsConsentNotice from '../components/TermsConsentNotice';
 
 const defaultImage = "https://images.pexels.com/photos/3184360/pexels-photo-3184360.jpeg?auto=compress&cs=tinysrgb&w=800";
 
@@ -20,6 +23,14 @@ const getAxisIcon = (axis: string) => {
 
 const TypeListPage = () => {
   const typeEntries = Object.entries(MASK_TYPES) as [MaskTypeCode, typeof MASK_TYPES[MaskTypeCode]][];
+
+  useEffect(() => {
+    applySeoMeta({
+      title: '16タイプ一覧 - 仮面診断',
+      description: '仮面診断の16タイプ一覧。各タイプの特徴・行動傾向を確認できます。',
+      canonicalUrl: `${window.location.origin}/types`,
+    });
+  }, []);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-slate-50">
@@ -45,6 +56,10 @@ const TypeListPage = () => {
                 <img
                   src={type.image || defaultImage}
                   alt={type.name}
+                  loading="lazy"
+                  decoding="async"
+                  width={800}
+                  height={600}
                   className="w-full h-full object-cover object-top transition-transform duration-300 group-hover:scale-110"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
@@ -82,6 +97,7 @@ const TypeListPage = () => {
 
                 <Link
                   to={`/result?type=${code}`}
+                  aria-label={`${type.name}（${code}）を詳しく見る`}
                   className="block w-full text-center py-2 bg-slate-900 text-white text-sm font-medium rounded-lg hover:bg-slate-800 transition-colors"
                 >
                   詳しく見る
@@ -98,6 +114,10 @@ const TypeListPage = () => {
           >
             診断をはじめる
           </Link>
+          <TermsConsentNotice
+            className="mt-3 text-xs md:text-sm text-slate-600"
+            linkClassName="underline underline-offset-4 hover:text-slate-900"
+          />
         </div>
       </div>
     </div>

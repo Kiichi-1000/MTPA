@@ -1,13 +1,58 @@
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Sparkles, Users, TrendingUp, Shield } from 'lucide-react';
+import { applyJsonLd, applySeoMeta } from '../utils/seo';
+import heroImage from '../assets/Hero.png';
+import TermsConsentNotice from '../components/TermsConsentNotice';
 
 export default function TopPage() {
   const navigate = useNavigate();
 
+  useEffect(() => {
+    const origin = window.location.origin;
+    applySeoMeta({
+      title: '仮面診断 - Kamen Personality Test',
+      description: '学校・職場など「人前での自分（仮面）」の性格を4軸×16タイプに分類する診断サイト',
+      canonicalUrl: `${origin}/`,
+    });
+
+    applyJsonLd('jsonld-top', {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebSite",
+          "@id": `${origin}/#website`,
+          url: `${origin}/`,
+          name: "仮面診断",
+          inLanguage: "ja-JP",
+        },
+        {
+          "@type": "WebPage",
+          "@id": `${origin}/#webpage`,
+          url: `${origin}/`,
+          name: "仮面診断 - Kamen Personality Test",
+          description: '学校・職場など「人前での自分（仮面）」の性格を4軸×16タイプに分類する診断サイト',
+          isPartOf: { "@id": `${origin}/#website` },
+          inLanguage: "ja-JP",
+        }
+      ]
+    });
+  }, []);
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
-      <section className="relative bg-gradient-to-br from-slate-800 via-slate-700 to-slate-900 text-white py-20 md:py-32">
-        <div className="max-w-6xl mx-auto px-4 text-center">
+      <section className="relative overflow-hidden text-white py-20 md:py-32">
+        <img
+          src={heroImage}
+          alt=""
+          aria-hidden="true"
+          className="absolute inset-0 w-full h-full object-cover"
+          loading="eager"
+          decoding="async"
+          fetchPriority="high"
+        />
+        <div className="absolute inset-0 bg-gradient-to-br from-slate-900/80 via-slate-800/70 to-slate-900/85" />
+        <div className="relative z-10 max-w-6xl mx-auto px-4 text-center">
           <div className="flex justify-center mb-8">
             <div className="bg-white/10 backdrop-blur-sm rounded-full p-6 border border-white/20">
               <Sparkles className="w-16 h-16 text-white" />
@@ -29,6 +74,7 @@ export default function TopPage() {
           >
             今すぐ診断を始める
           </button>
+          <TermsConsentNotice />
         </div>
       </section>
 
@@ -142,6 +188,10 @@ export default function TopPage() {
           >
             診断を始める
           </button>
+          <TermsConsentNotice
+            className="mt-3 text-xs md:text-sm text-slate-500"
+            linkClassName="underline underline-offset-4 hover:text-slate-700"
+          />
           <p className="text-sm text-slate-500 mt-4">
             所要時間: 約5分 | 質問数: 40問
           </p>

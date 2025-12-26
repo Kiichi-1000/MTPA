@@ -28,6 +28,11 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
+                <Link to="/types" className="text-slate-300 hover:text-white text-sm transition-colors">
+                  タイプ一覧
+                </Link>
+              </li>
+              <li>
                 <Link to="/faq" className="text-slate-300 hover:text-white text-sm transition-colors">
                   FAQ
                 </Link>
@@ -37,10 +42,23 @@ export default function Footer() {
 
           <div>
             <h3 className="font-semibold text-lg mb-4">情報</h3>
-            <p className="text-slate-300 text-sm leading-relaxed">
-              本診断は独自の心理学的フレームワークに基づき開発されています。
-              他の性格診断サイトとは関係ありません。
-            </p>
+            <ul className="space-y-2">
+              <li>
+                <Link to="/terms" className="text-slate-300 hover:text-white text-sm transition-colors">
+                  利用規約
+                </Link>
+              </li>
+              <li>
+                <Link to="/privacy" className="text-slate-300 hover:text-white text-sm transition-colors">
+                  プライバシーポリシー
+                </Link>
+              </li>
+              <li>
+                <Link to="/disclaimer" className="text-slate-300 hover:text-white text-sm transition-colors">
+                  免責事項
+                </Link>
+              </li>
+            </ul>
           </div>
         </div>
 

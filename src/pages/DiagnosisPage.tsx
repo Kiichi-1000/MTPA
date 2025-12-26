@@ -4,6 +4,7 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { questions } from '../data/questions';
 import { Answers, AnswerLevel } from '../types/diagnosis';
 import { calculateScores, determineTypeCode } from '../utils/diagnosis';
+import { applySeoMeta } from '../utils/seo';
 
 const QUESTIONS_PER_PAGE = 5;
 const TOTAL_PAGES = 8;
@@ -36,8 +37,11 @@ function ScaleSelector({ optionA, optionB, selectedLevel, onSelect }: ScaleSelec
           return (
             <button
               key={level}
+              type="button"
               onClick={() => onSelect(level)}
-              className="relative transition-all duration-200 hover:scale-110"
+              aria-label={`回答レベル${level}（${isLeftSide ? 'A寄り' : 'B寄り'}）`}
+              aria-pressed={selectedLevel === level}
+              className="relative transition-all duration-200 hover:scale-110 focus:outline-none focus-visible:ring-4 focus-visible:ring-slate-400/60 rounded-full"
               style={{
                 width: sizes[index],
                 height: sizes[index],
@@ -90,6 +94,14 @@ export default function DiagnosisPage() {
   const allCurrentPageAnswered = currentPageQuestions.every(
     q => answers[q.id] !== undefined
   );
+
+  useEffect(() => {
+    applySeoMeta({
+      title: '診断 - 仮面診断',
+      description: '40問の質問に答えて、人前での振る舞いを4軸×16タイプで診断します（約5分）',
+      canonicalUrl: `${window.location.origin}/diagnosis`,
+    });
+  }, []);
 
   useEffect(() => {
     if (questionsContainerRef.current) {
