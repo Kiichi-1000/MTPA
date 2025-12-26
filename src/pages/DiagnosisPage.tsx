@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, memo, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { questions } from '../data/questions';
@@ -17,7 +17,7 @@ interface ScaleSelectorProps {
   onSelect: (level: AnswerLevel) => void;
 }
 
-function ScaleSelector({ optionA, optionB, selectedLevel, onSelect }: ScaleSelectorProps) {
+const ScaleSelector = memo(({ optionA, optionB, selectedLevel, onSelect }: ScaleSelectorProps) => {
   const levels: AnswerLevel[] = [1, 2, 3, 4, 5, 6];
   const sizes = [48, 36, 28, 28, 36, 48];
 
@@ -82,7 +82,9 @@ function ScaleSelector({ optionA, optionB, selectedLevel, onSelect }: ScaleSelec
       </div>
     </div>
   );
-}
+});
+
+ScaleSelector.displayName = 'ScaleSelector';
 
 export default function DiagnosisPage() {
   const navigate = useNavigate();
@@ -119,12 +121,12 @@ export default function DiagnosisPage() {
     }
   }, [currentPage]);
 
-  const handleAnswer = (questionId: number, level: AnswerLevel) => {
-    setAnswers({
-      ...answers,
+  const handleAnswer = useCallback((questionId: number, level: AnswerLevel) => {
+    setAnswers((prev) => ({
+      ...prev,
       [questionId]: level
-    });
-  };
+    }));
+  }, []);
 
   const handleNext = async () => {
     if (!allCurrentPageAnswered) return;
