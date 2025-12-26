@@ -56,21 +56,21 @@ function ScaleSelector({ optionA, optionB, selectedLevel, onSelect }: ScaleSelec
         })}
       </div>
 
-      <div className="flex flex-col md:flex-row gap-3 md:gap-4">
-        <div className="flex-1 bg-blue-50 border-2 border-blue-200 rounded-xl p-4">
-          <div className="flex items-start gap-3">
-            <span className="flex-shrink-0 w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold text-lg">
+      <div className="flex gap-2 md:gap-4">
+        <div className="flex-1 bg-blue-50 border-2 border-blue-200 rounded-xl p-3 md:p-4">
+          <div className="flex flex-col items-center gap-2">
+            <span className="flex-shrink-0 w-7 h-7 md:w-8 md:h-8 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold text-base md:text-lg">
               A
             </span>
-            <p className="text-slate-700 leading-relaxed pt-1">{optionA}</p>
+            <p className="text-slate-700 leading-relaxed text-sm md:text-base text-center">{optionA}</p>
           </div>
         </div>
-        <div className="flex-1 bg-orange-50 border-2 border-orange-200 rounded-xl p-4">
-          <div className="flex items-start gap-3">
-            <span className="flex-shrink-0 w-8 h-8 bg-orange-600 text-white rounded-full flex items-center justify-center font-bold text-lg">
+        <div className="flex-1 bg-orange-50 border-2 border-orange-200 rounded-xl p-3 md:p-4">
+          <div className="flex flex-col items-center gap-2">
+            <span className="flex-shrink-0 w-7 h-7 md:w-8 md:h-8 bg-orange-600 text-white rounded-full flex items-center justify-center font-bold text-base md:text-lg">
               B
             </span>
-            <p className="text-slate-700 leading-relaxed pt-1">{optionB}</p>
+            <p className="text-slate-700 leading-relaxed text-sm md:text-base text-center">{optionB}</p>
           </div>
         </div>
       </div>
