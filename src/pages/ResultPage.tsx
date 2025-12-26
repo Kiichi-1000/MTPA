@@ -195,6 +195,102 @@ export default function ResultPage() {
             </p>
           </div>
 
+          <div className="border-t border-slate-200 pt-8 mb-8">
+            <h3 className="text-xl font-bold text-slate-800 mb-6">
+              4つの軸の結果
+            </h3>
+            {axisPercentages ? (
+              <div className="space-y-8">
+                {axisPercentages.map((axis, index) => {
+                  const colors = [
+                    { a: 'bg-amber-500', b: 'bg-blue-500' },
+                    { a: 'bg-rose-500', b: 'bg-teal-500' },
+                    { a: 'bg-orange-500', b: 'bg-cyan-500' },
+                    { a: 'bg-emerald-500', b: 'bg-pink-500' }
+                  ];
+                  const colorPair = colors[index];
+
+                  const isADominant = axis.percentageA > axis.percentageB;
+
+                  return (
+                    <div key={index}>
+                      <p className="text-sm font-semibold text-slate-600 mb-4 text-center">
+                        {axis.name}
+                      </p>
+                      <div className="space-y-3">
+                        <div className="text-center mb-3">
+                          <span className="text-3xl font-bold text-slate-800">
+                            {isADominant ? axis.codeA : axis.codeB}
+                          </span>
+                        </div>
+                        <div className="flex justify-between items-center text-sm font-medium mb-1">
+                          <span className="text-slate-800">{axis.optionA}</span>
+                          <span className="text-slate-800">{axis.optionB}</span>
+                        </div>
+                        <div className="relative h-8 bg-slate-100 rounded-full overflow-hidden">
+                          <div className="flex h-full">
+                            <div
+                              className={`${isADominant ? colorPair.a : 'bg-gray-300'} transition-all duration-500 flex items-center justify-start px-3`}
+                              style={{ width: `${axis.percentageA}%` }}
+                            >
+                              {axis.percentageA >= 15 && (
+                                <span className={`text-xs font-bold ${isADominant ? 'text-white' : 'text-gray-500'}`}>
+                                  {axis.percentageA}%
+                                </span>
+                              )}
+                            </div>
+                            <div
+                              className={`${!isADominant ? colorPair.b : 'bg-gray-300'} transition-all duration-500 flex items-center justify-end px-3`}
+                              style={{ width: `${axis.percentageB}%` }}
+                            >
+                              {axis.percentageB >= 15 && (
+                                <span className={`text-xs font-bold ${!isADominant ? 'text-white' : 'text-gray-500'}`}>
+                                  {axis.percentageB}%
+                                </span>
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                        <div className="text-center text-sm text-slate-600">
+                          <span className="font-bold">
+                            {axis.percentageA}% - {axis.percentageB}%
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="bg-slate-50 rounded-lg p-4">
+                  <p className="text-sm text-slate-600 mb-1">テンション</p>
+                  <p className="text-lg font-bold text-slate-800">
+                    {maskType.axesSummary.tension === "Sunny" ? "Sunny（明るい）" : "Moon（落ち着いた）"}
+                  </p>
+                </div>
+                <div className="bg-slate-50 rounded-lg p-4">
+                  <p className="text-sm text-slate-600 mb-1">ポジション</p>
+                  <p className="text-lg font-bold text-slate-800">
+                    {maskType.axesSummary.position === "Front" ? "Front（前に出る）" : "Back（裏方）"}
+                  </p>
+                </div>
+                <div className="bg-slate-50 rounded-lg p-4">
+                  <p className="text-sm text-slate-600 mb-1">距離感</p>
+                  <p className="text-lg font-bold text-slate-800">
+                    {maskType.axesSummary.distance === "Close" ? "Close（親しみやすい）" : "Guard（適度な距離）"}
+                  </p>
+                </div>
+                <div className="bg-slate-50 rounded-lg p-4">
+                  <p className="text-sm text-slate-600 mb-1">ワークスタイル</p>
+                  <p className="text-lg font-bold text-slate-800">
+                    {maskType.axesSummary.work === "Persistent" ? "Persistent（粘り強い）" : "Quick（要領よく）"}
+                  </p>
+                </div>
+              </div>
+            )}
+          </div>
+
           {maskType.article ? (
             <>
               <div className="border-t border-slate-200 pt-8 mb-8">
