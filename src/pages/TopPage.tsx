@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Sparkles, Users, TrendingUp, Shield } from 'lucide-react';
 import { applyJsonLd, applySeoMeta } from '../utils/seo';
 import heroImage from '../assets/Hero.png';
+import phoneHeroImage from '../assets/phonehero.jpeg';
 import TermsConsentNotice from '../components/TermsConsentNotice';
 
 export default function TopPage() {
@@ -42,15 +43,18 @@ export default function TopPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
       <section className="relative overflow-hidden text-white py-20 md:py-32">
-        <img
-          src={heroImage}
-          alt=""
-          aria-hidden="true"
-          className="absolute inset-0 w-full h-full object-cover"
-          loading="eager"
-          decoding="async"
-          fetchPriority="high"
-        />
+        <picture>
+          <source media="(min-width: 768px)" srcSet={heroImage} />
+          <img
+            src={phoneHeroImage}
+            alt=""
+            aria-hidden="true"
+            className="absolute inset-0 w-full h-full object-cover"
+            loading="eager"
+            decoding="async"
+            fetchPriority="high"
+          />
+        </picture>
         <div className="absolute inset-0 bg-gradient-to-br from-slate-900/80 via-slate-800/70 to-slate-900/85" />
         <div className="relative z-10 max-w-6xl mx-auto px-4 text-center">
           <div className="flex justify-center mb-8">
