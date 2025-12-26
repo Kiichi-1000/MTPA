@@ -42,8 +42,6 @@ export default function ResultPage() {
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
   useEffect(() => {
-    window.scrollTo(0, 0);
-
     if (!typeParam || !isValidTypeCode(typeParam)) {
       navigate('/');
     }
