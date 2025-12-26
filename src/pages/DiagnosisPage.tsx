@@ -24,6 +24,9 @@ function ScaleSelector({ optionA, optionB, selectedLevel, onSelect }: ScaleSelec
   return (
     <div className="space-y-6">
       <div className="flex justify-center items-center gap-2 md:gap-3 py-8">
+        <span className="flex-shrink-0 w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold text-sm md:text-base mr-1 md:mr-2">
+          A
+        </span>
         {levels.map((level, index) => {
           const isLeftSide = level <= 3;
           const getColorClass = () => {
@@ -54,6 +57,9 @@ function ScaleSelector({ optionA, optionB, selectedLevel, onSelect }: ScaleSelec
             </button>
           );
         })}
+        <span className="flex-shrink-0 w-8 h-8 bg-orange-600 text-white rounded-full flex items-center justify-center font-bold text-sm md:text-base ml-1 md:ml-2">
+          B
+        </span>
       </div>
 
       <div className="flex flex-col md:flex-row gap-3 md:gap-4">
