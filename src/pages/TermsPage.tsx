@@ -33,9 +33,25 @@ export default function TermsPage() {
 
           <section>
             <h2 className="text-xl font-bold text-slate-900 mb-3">2. 同意の成立</h2>
-            <p className="text-slate-700 leading-relaxed">
-              利用者が本サービス上の「診断を始める」等のボタンを押下し、診断を開始した時点で、利用者は本規約の内容に同意いただいたものとして取り扱います。
-            </p>
+            <div className="text-slate-700 leading-relaxed space-y-3">
+              <p>
+                利用者が本サービス上の「診断を始める」等のボタンを押下し、診断を開始した時点で、利用者は本規約の内容に同意いただいたものとして取り扱います。
+              </p>
+              <div className="bg-amber-50 border-l-4 border-amber-500 rounded p-4">
+                <h3 className="font-bold text-slate-900 mb-2">診断結果データの保存に関する同意</h3>
+                <p className="mb-2">
+                  本サービスを利用することで、利用者は以下に同意したものとみなされます：
+                </p>
+                <ul className="list-disc pl-6 space-y-1">
+                  <li>診断の回答内容、診断結果、フィードバックが匿名でデータベースに保存されること</li>
+                  <li>保存されたデータがサービス改善と統計分析のために使用されること</li>
+                  <li>個人を特定できる情報（IPアドレス、氏名、メールアドレス等）は一切保存されないこと</li>
+                </ul>
+                <p className="mt-2">
+                  詳細は<a href="/privacy" className="text-blue-600 hover:underline font-semibold">プライバシーポリシー</a>をご確認ください。
+                </p>
+              </div>
+            </div>
           </section>
 
           <section>
@@ -113,7 +129,7 @@ export default function TermsPage() {
           </section>
 
           <footer className="pt-2 text-xs text-slate-500">
-            最終更新日: 2025-12-26
+            最終更新日: 2025-12-27
           </footer>
         </div>
       </div>
