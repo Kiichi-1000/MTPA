@@ -6,6 +6,7 @@ import { Answers, AnswerLevel } from '../types/diagnosis';
 import { calculateScores, determineTypeCode } from '../utils/diagnosis';
 import { applySeoMeta } from '../utils/seo';
 import { saveDiagnosisResult } from '../lib/database';
+import { SITE_ALT_NAME, SITE_NAME } from '../data/site';
 
 const QUESTIONS_PER_PAGE = 5;
 const TOTAL_PAGES = 8;
@@ -106,8 +107,8 @@ export default function DiagnosisPage() {
 
   useEffect(() => {
     applySeoMeta({
-      title: '診断 - 仮面診断',
-      description: '40問の質問に答えて、人前での振る舞いを4軸×16タイプで診断します（約5分）',
+      title: `診断 - ${SITE_NAME}（${SITE_ALT_NAME}）`,
+      description: `${SITE_NAME}（${SITE_ALT_NAME}）で、40問の質問に答えて人前での振る舞いを4軸×16タイプで診断します（約5分）`,
       canonicalUrl: `${window.location.origin}/diagnosis`,
     });
   }, []);
@@ -137,14 +138,14 @@ export default function DiagnosisPage() {
 
       try {
         const { data } = await saveDiagnosisResult(typeCode, answers, scores);
-        navigate(`/result?type=${typeCode}`, {
+        navigate(`/type/${typeCode}`, {
           state: {
             scores,
             diagnosisResultId: data?.id || null
           }
         });
       } catch (err) {
-        navigate(`/result?type=${typeCode}`, { state: { scores } });
+        navigate(`/type/${typeCode}`, { state: { scores } });
       }
     } else {
       setCurrentPage(currentPage + 1);

@@ -1,13 +1,13 @@
 import { useEffect } from 'react';
 import { applySeoMeta } from '../utils/seo';
-import { CONTACT_EMAIL, OPERATOR_NAME, SITE_NAME } from '../data/site';
+import { CONTACT_EMAIL, OPERATOR_NAME, SITE_ALT_NAME, SITE_NAME } from '../data/site';
 
 export default function PrivacyPage() {
   useEffect(() => {
     const origin = window.location.origin;
     applySeoMeta({
-      title: `プライバシーポリシー - ${SITE_NAME}`,
-      description: `${SITE_NAME}のプライバシーポリシーです。`,
+      title: `プライバシーポリシー - ${SITE_NAME}（${SITE_ALT_NAME}）`,
+      description: `${SITE_NAME}（${SITE_ALT_NAME}）のプライバシーポリシーです。`,
       canonicalUrl: `${origin}/privacy`,
     });
   }, []);

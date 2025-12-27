@@ -2,6 +2,7 @@ import { ChevronDown } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { applyJsonLd, applySeoMeta } from '../utils/seo';
+import { SITE_ALT_NAME, SITE_NAME } from '../data/site';
 
 interface FAQItem {
   question: string;
@@ -65,8 +66,8 @@ export default function FAQPage() {
   useEffect(() => {
     const origin = window.location.origin;
     applySeoMeta({
-      title: 'よくある質問 - 仮面診断',
-      description: '仮面診断についてのよくある質問と回答をまとめています。',
+      title: `よくある質問 - ${SITE_NAME}（${SITE_ALT_NAME}）`,
+      description: `${SITE_NAME}（${SITE_ALT_NAME}）についてのよくある質問と回答をまとめています。`,
       canonicalUrl: `${origin}/faq`,
     });
 

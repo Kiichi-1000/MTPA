@@ -34,6 +34,7 @@ function App() {
               <Route path="/" element={<TopPage />} />
               <Route path="/diagnosis" element={<DiagnosisPage />} />
               <Route path="/result" element={<ResultPage />} />
+              <Route path="/type/:code" element={<ResultPage />} />
               <Route path="/faq" element={<FAQPage />} />
               <Route path="/types" element={<TypeListPage />} />
               <Route path="/terms" element={<TermsPage />} />

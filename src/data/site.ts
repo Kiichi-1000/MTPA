@@ -1,4 +1,5 @@
 export const SITE_NAME = '仮面診断';
+export const SITE_ALT_NAME = 'MTPA (Mask Type Personalize App)';
 export const SITE_ORIGIN_FALLBACK = 'https://masktype.synthera.jp';
 
 /**

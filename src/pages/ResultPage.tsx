@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
-import { useNavigate, useSearchParams, useLocation } from 'react-router-dom';
+import { useNavigate, useSearchParams, useLocation, useParams } from 'react-router-dom';
 import { Share2, RotateCcw, Star, MessageCircle } from 'lucide-react';
 import { MASK_TYPES } from '../data/maskTypes';
 import { isValidTypeCode } from '../utils/diagnosis';
 import { MaskTypeCode, Scores } from '../types/diagnosis';
 import { applySeoMeta } from '../utils/seo';
 import { saveFeedback } from '../lib/database';
+import { SITE_ALT_NAME, SITE_NAME } from '../data/site';
 
 interface AxisPercentage {
   name: string;
@@ -30,8 +31,11 @@ function calculateAxisPercentage(scoreA: number, scoreB: number): { percentageA:
 export default function ResultPage() {
   const navigate = useNavigate();
   const location = useLocation();
+  const params = useParams();
   const [searchParams] = useSearchParams();
-  const typeParam = searchParams.get('type');
+  const typeFromQuery = searchParams.get('type');
+  const typeFromPath = typeof params.code === 'string' ? params.code : null;
+  const typeParam = typeFromPath ?? typeFromQuery;
   const scores = location.state?.scores as Scores | undefined;
   const diagnosisResultId = location.state?.diagnosisResultId as string | undefined;
 
@@ -54,11 +58,14 @@ export default function ResultPage() {
   const maskType = MASK_TYPES[typeParam as MaskTypeCode];
 
   useEffect(() => {
+    const origin = window.location.origin;
+    const canonicalPath = `/type/${maskType.code}`;
+    const canonicalUrl = `${origin}${canonicalPath}`;
     applySeoMeta({
-      title: `${maskType.name}（${maskType.code}）の診断結果 - 仮面診断`,
-      description: `${maskType.name}（${maskType.code}）の特徴・強み・弱み・学校/職場での傾向をまとめた診断結果ページです。`,
-      canonicalUrl: `${window.location.origin}/result?type=${maskType.code}`,
-      ogImageUrl: `${window.location.origin}/og.svg`,
+      title: `${maskType.name}（${maskType.code}）診断結果 - ${SITE_NAME}（${SITE_ALT_NAME}）`,
+      description: `${SITE_NAME}（${SITE_ALT_NAME}）の${maskType.name}（${maskType.code}）タイプ。特徴・強み・弱み・学校/職場での傾向をまとめた結果ページです。`,
+      canonicalUrl,
+      ogImageUrl: `${origin}/og.svg`,
     });
   }, [maskType.code, maskType.name]);
 
@@ -98,7 +105,7 @@ export default function ResultPage() {
   ] : null;
 
   const handleShare = (platform: 'twitter' | 'line') => {
-    const url = window.location.href;
+    const url = `${window.location.origin}/type/${maskType.code}`;
     const text = `私の仮面タイプは「${maskType.name}」でした！\n${maskType.shortLabel}\n\n#仮面診断`;
 
     if (platform === 'twitter') {
@@ -115,7 +122,7 @@ export default function ResultPage() {
   };
 
   const handleCopyLink = async () => {
-    const url = window.location.href;
+    const url = `${window.location.origin}/type/${maskType.code}`;
     try {
       if (!navigator.clipboard?.writeText) {
         throw new Error('clipboard_not_available');

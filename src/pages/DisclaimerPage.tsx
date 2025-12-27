@@ -1,13 +1,13 @@
 import { useEffect } from 'react';
 import { applySeoMeta } from '../utils/seo';
-import { SITE_NAME } from '../data/site';
+import { SITE_ALT_NAME, SITE_NAME } from '../data/site';
 
 export default function DisclaimerPage() {
   useEffect(() => {
     const origin = window.location.origin;
     applySeoMeta({
-      title: `免責事項 - ${SITE_NAME}`,
-      description: `${SITE_NAME}の免責事項です。`,
+      title: `免責事項 - ${SITE_NAME}（${SITE_ALT_NAME}）`,
+      description: `${SITE_NAME}（${SITE_ALT_NAME}）の免責事項です。`,
       canonicalUrl: `${origin}/disclaimer`,
     });
   }, []);

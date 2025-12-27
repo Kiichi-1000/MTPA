@@ -5,6 +5,7 @@ import { MaskTypeCode } from '../types/diagnosis';
 import { Users, Target, Heart, Sparkles } from 'lucide-react';
 import { applySeoMeta } from '../utils/seo';
 import TermsConsentNotice from '../components/TermsConsentNotice';
+import { SITE_ALT_NAME, SITE_NAME } from '../data/site';
 
 const defaultImage = "https://images.pexels.com/photos/3184360/pexels-photo-3184360.jpeg?auto=compress&cs=tinysrgb&w=800";
 
@@ -26,8 +27,8 @@ const TypeListPage = () => {
 
   useEffect(() => {
     applySeoMeta({
-      title: '16タイプ一覧 - 仮面診断',
-      description: '仮面診断の16タイプ一覧。各タイプの特徴・行動傾向を確認できます。',
+      title: `16タイプ一覧 - ${SITE_NAME}（${SITE_ALT_NAME}）`,
+      description: `${SITE_NAME}（${SITE_ALT_NAME}）の16タイプ一覧。各タイプの特徴・行動傾向を確認できます。`,
       canonicalUrl: `${window.location.origin}/types`,
     });
   }, []);
@@ -96,7 +97,7 @@ const TypeListPage = () => {
                 </div>
 
                 <Link
-                  to={`/result?type=${code}`}
+                  to={`/type/${code}`}
                   aria-label={`${type.name}（${code}）を詳しく見る`}
                   className="block w-full text-center py-2 bg-slate-900 text-white text-sm font-medium rounded-lg hover:bg-slate-800 transition-colors"
                 >

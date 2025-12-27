@@ -1,13 +1,13 @@
 import { useEffect } from 'react';
 import { applySeoMeta } from '../utils/seo';
-import { CONTACT_EMAIL, OPERATOR_NAME, SITE_NAME } from '../data/site';
+import { CONTACT_EMAIL, OPERATOR_NAME, SITE_ALT_NAME, SITE_NAME } from '../data/site';
 
 export default function TermsPage() {
   useEffect(() => {
     const origin = window.location.origin;
     applySeoMeta({
-      title: `利用規約 - ${SITE_NAME}`,
-      description: `${SITE_NAME}の利用規約です。診断開始ボタンの押下をもって本規約に同意したものとみなします。`,
+      title: `利用規約 - ${SITE_NAME}（${SITE_ALT_NAME}）`,
+      description: `${SITE_NAME}（${SITE_ALT_NAME}）の利用規約です。診断開始ボタンの押下をもって本規約に同意いただいたものとして取り扱います。`,
       canonicalUrl: `${origin}/terms`,
     });
   }, []);

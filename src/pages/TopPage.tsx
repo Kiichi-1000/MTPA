@@ -5,6 +5,7 @@ import { applyJsonLd, applySeoMeta } from '../utils/seo';
 import heroImage from '../assets/Hero.png';
 import phoneHeroImage from '../assets/phonehero.jpeg';
 import TermsConsentNotice from '../components/TermsConsentNotice';
+import { SITE_ALT_NAME, SITE_NAME } from '../data/site';
 
 export default function TopPage() {
   const navigate = useNavigate();
@@ -12,7 +13,7 @@ export default function TopPage() {
   useEffect(() => {
     const origin = window.location.origin;
     applySeoMeta({
-      title: '仮面診断 - MTPA (Mask Type Personalize App)',
+      title: `${SITE_NAME} - ${SITE_ALT_NAME}`,
       description: '学校・職場など「人前での自分（仮面）」の性格を4軸×16タイプに分類する診断サイト',
       canonicalUrl: `${origin}/`,
     });
@@ -24,14 +25,15 @@ export default function TopPage() {
           "@type": "WebSite",
           "@id": `${origin}/#website`,
           url: `${origin}/`,
-          name: "仮面診断",
+          name: SITE_NAME,
+          alternateName: SITE_ALT_NAME,
           inLanguage: "ja-JP",
         },
         {
           "@type": "WebPage",
           "@id": `${origin}/#webpage`,
           url: `${origin}/`,
-          name: "仮面診断 - MTPA (Mask Type Personalize App)",
+          name: `${SITE_NAME} - ${SITE_ALT_NAME}`,
           description: '学校・職場など「人前での自分（仮面）」の性格を4軸×16タイプに分類する診断サイト',
           isPartOf: { "@id": `${origin}/#website` },
           inLanguage: "ja-JP",
@@ -66,7 +68,7 @@ export default function TopPage() {
             仮面診断
           </h1>
           <p className="text-2xl md:text-3xl text-slate-200 mb-4">
-            MTPA (Mask Type Personalize App)
+            {SITE_ALT_NAME}
           </p>
           <p className="text-lg md:text-xl text-slate-300 mb-10 max-w-2xl mx-auto">
             人前での「あなたの仮面」を診断します<br />
