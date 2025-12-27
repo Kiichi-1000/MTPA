@@ -6,7 +6,7 @@ export const questions: Question[] = [
     axis: "tension",
     text: "学校や職場でちょっとしんどい日に、人前に出るときの自分に近いのは？",
     options: {
-      A: { text: "しんどいときでも、周りにはそれをあまり感じさせないように、できるだけいつも通り明るく振る舞う", typeCode: "S" },
+      A: { text: "いつも通り普通に振る舞える", typeCode: "S" },
       B: { text: "無理に明るく振る舞おうとしても、「今日どうしたの？」「疲れてない？」と聞かれることがある", typeCode: "M" }
     }
   },
@@ -24,8 +24,8 @@ export const questions: Question[] = [
     axis: "work",
     text: "自分の「キャラ」としてアピールしたいのは、どちらに近いですか？",
     options: {
-      A: { text: "量も質もとにかくやる、「誰よりも手を動かす人」というイメージ", typeCode: "P" },
-      B: { text: "「ここだけは任せて」「必要なところだけ押さえる人」というイメージ", typeCode: "Q" }
+      A: { text: "「量も質もとにかくやる」というイメージ。", typeCode: "P" },
+      B: { text: "「必要なところだけ押さえる人」というイメージ。", typeCode: "Q" }
     }
   },
   {
@@ -60,8 +60,8 @@ export const questions: Question[] = [
     axis: "work",
     text: "クラスメイトや同僚からのあなたのイメージとして近いのはどちらですか",
     options: {
-      A: { text: "「真面目で努力家」「とりあえずよく頑張っている人」に見えていそう", typeCode: "P" },
-      B: { text: "「要領が良くて、少しずる賢い」「うまくサボり方も知っている人」に見えていそう", typeCode: "Q" }
+      A: { text: "「真面目で努力家」に見えていそう。", typeCode: "P" },
+      B: { text: "「要領がよく、賢い人」に見えていそう。", typeCode: "Q" }
     }
   },
   {
@@ -114,8 +114,8 @@ export const questions: Question[] = [
     axis: "work",
     text: "同じ成果が出た場合、周りからどちらを評価されるほうが嬉しいですか？",
     options: {
-      A: { text: "「ここまでやるのすごい」と、過程や努力を評価される", typeCode: "P" },
-      B: { text: "「やり方がうまいよね」と、効率や工夫を評価される", typeCode: "Q" }
+      A: { text: "過程や努力が評価される。", typeCode: "P" },
+      B: { text: "効率や工夫が評価される。", typeCode: "Q" }
     }
   },
   {
@@ -232,7 +232,7 @@ export const questions: Question[] = [
     text: "こんな先輩・上司が理想だなと感じる距離感に近いのは？",
     options: {
       A: { text: "友達に近いテンションで話せて、なんでも気軽に相談しやすい人", typeCode: "C" },
-      B: { text: "ある程度きちんとした距離があって、相談はできるけれど、ちゃんと線も感じられる人", typeCode: "G" }
+      B: { text: "相談はできるけれど、上下関係の距離感がある程度ある人。", typeCode: "G" }
     }
   },
   {

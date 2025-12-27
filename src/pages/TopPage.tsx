@@ -12,7 +12,7 @@ export default function TopPage() {
   useEffect(() => {
     const origin = window.location.origin;
     applySeoMeta({
-      title: '仮面診断 - Kamen Personality Test',
+      title: '仮面診断 - MTPA (Mask Type Personalize App)',
       description: '学校・職場など「人前での自分（仮面）」の性格を4軸×16タイプに分類する診断サイト',
       canonicalUrl: `${origin}/`,
     });
@@ -31,7 +31,7 @@ export default function TopPage() {
           "@type": "WebPage",
           "@id": `${origin}/#webpage`,
           url: `${origin}/`,
-          name: "仮面診断 - Kamen Personality Test",
+          name: "仮面診断 - MTPA (Mask Type Personalize App)",
           description: '学校・職場など「人前での自分（仮面）」の性格を4軸×16タイプに分類する診断サイト',
           isPartOf: { "@id": `${origin}/#website` },
           inLanguage: "ja-JP",
@@ -66,7 +66,7 @@ export default function TopPage() {
             仮面診断
           </h1>
           <p className="text-2xl md:text-3xl text-slate-200 mb-4">
-            Kamen Personality Test
+            MTPA (Mask Type Personalize App)
           </p>
           <p className="text-lg md:text-xl text-slate-300 mb-10 max-w-2xl mx-auto">
             人前での「あなたの仮面」を診断します<br />
