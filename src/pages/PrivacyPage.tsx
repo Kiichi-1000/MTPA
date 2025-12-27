@@ -70,17 +70,57 @@ export default function PrivacyPage() {
 
           <section>
             <h2 className="text-xl font-bold text-slate-900 mb-3">3. アクセス解析・Cookie</h2>
-            <p className="text-slate-700 leading-relaxed">
-              現時点では、アクセス解析ツールを導入していません。将来、利便性向上や改善のために導入する場合は、
-              本ポリシーの更新や必要な表示等を行います。
-            </p>
+            <div className="text-slate-700 leading-relaxed space-y-3">
+              <p>
+                本サービスでは、サービスの改善とユーザー体験の向上を目的として、Google Analytics（Googleが提供するアクセス解析ツール）を使用しています。
+              </p>
+              <div className="bg-blue-50 border-l-4 border-blue-500 rounded p-4">
+                <h3 className="font-bold text-slate-900 mb-2">Google Analyticsについて</h3>
+                <ul className="list-disc pl-6 space-y-1">
+                  <li>訪問者数、ページビュー、利用環境などの統計情報を収集します</li>
+                  <li>Cookieを使用して匿名の利用データを収集します</li>
+                  <li>個人を特定する情報は収集されません</li>
+                  <li>収集されたデータはGoogleのプライバシーポリシーに基づいて管理されます</li>
+                </ul>
+                <p className="mt-3">
+                  Google Analyticsのデータ収集を無効にするには、
+                  <a
+                    href="https://tools.google.com/dlpage/gaoptout"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-600 hover:underline font-semibold"
+                  >
+                    Googleアナリティクス オプトアウト アドオン
+                  </a>
+                  をご利用ください。
+                </p>
+              </div>
+            </div>
           </section>
 
           <section>
             <h2 className="text-xl font-bold text-slate-900 mb-3">4. 第三者提供</h2>
-            <p className="text-slate-700 leading-relaxed">
-              法令に基づく場合を除き、運営者は利用者情報を第三者に提供しません（導入する外部サービスがある場合は別途明示します）。
-            </p>
+            <div className="text-slate-700 leading-relaxed space-y-3">
+              <p>
+                法令に基づく場合を除き、運営者は利用者情報を第三者に提供しません。ただし、以下の外部サービスを利用しています：
+              </p>
+              <ul className="list-disc pl-6 space-y-1">
+                <li>
+                  <span className="font-semibold">Google Analytics（Google LLC）</span>
+                  - アクセス解析のため、匿名の統計情報がGoogleに提供されます。
+                  詳細は
+                  <a
+                    href="https://policies.google.com/privacy"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-600 hover:underline"
+                  >
+                    Googleのプライバシーポリシー
+                  </a>
+                  をご確認ください。
+                </li>
+              </ul>
+            </div>
           </section>
 
           <section>
