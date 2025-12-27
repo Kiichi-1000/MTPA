@@ -7,6 +7,7 @@ import { calculateScores, determineTypeCode } from '../utils/diagnosis';
 import { applySeoMeta } from '../utils/seo';
 import { saveDiagnosisResult } from '../lib/database';
 import { SITE_ALT_NAME, SITE_NAME } from '../data/site';
+import { trackDiagnosisStart, trackDiagnosisComplete } from '../utils/analytics';
 
 const QUESTIONS_PER_PAGE = 5;
 const TOTAL_PAGES = 8;
@@ -111,6 +112,7 @@ export default function DiagnosisPage() {
       description: `${SITE_NAME}（${SITE_ALT_NAME}）で、40問の質問に答えて人前での振る舞いを4軸×16タイプで診断します（約5分）`,
       canonicalUrl: `${window.location.origin}/diagnosis`,
     });
+    trackDiagnosisStart();
   }, []);
 
   useEffect(() => {
@@ -135,6 +137,8 @@ export default function DiagnosisPage() {
     if (isLastPage) {
       const scores = calculateScores(questions, answers);
       const typeCode = determineTypeCode(scores);
+
+      trackDiagnosisComplete(typeCode);
 
       try {
         const { data, error } = await saveDiagnosisResult(typeCode, answers, scores);
