@@ -137,7 +137,14 @@ export default function DiagnosisPage() {
       const typeCode = determineTypeCode(scores);
 
       try {
-        const { data } = await saveDiagnosisResult(typeCode, answers, scores);
+        const { data, error } = await saveDiagnosisResult(typeCode, answers, scores);
+
+        if (error) {
+          console.error('診断結果の保存に失敗しました:', error);
+        } else {
+          console.log('診断結果を保存しました:', data?.id);
+        }
+
         navigate(`/type/${typeCode}`, {
           state: {
             scores,
@@ -145,6 +152,7 @@ export default function DiagnosisPage() {
           }
         });
       } catch (err) {
+        console.error('予期しないエラーが発生しました:', err);
         navigate(`/type/${typeCode}`, { state: { scores } });
       }
     } else {

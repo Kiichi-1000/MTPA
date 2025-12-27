@@ -143,19 +143,22 @@ export default function ResultPage() {
     setIsSubmitting(true);
 
     try {
-      const { error } = await saveFeedback(
+      const { data, error } = await saveFeedback(
         rating,
         comment.trim() || null,
         diagnosisResultId || null
       );
 
       if (error) {
+        console.error('フィードバックの保存に失敗しました:', error);
         throw error;
       }
 
+      console.log('フィードバックを保存しました:', data?.id);
       setFeedbackSubmitted(true);
       alert('フィードバックをお送りいただき、ありがとうございました！');
     } catch (err) {
+      console.error('フィードバック送信エラー:', err);
       alert('フィードバックの送信に失敗しました。もう一度お試しください。');
     } finally {
       setIsSubmitting(false);
