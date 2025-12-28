@@ -67,8 +67,8 @@ export default function TypeSlider() {
   return (
     <div className="relative">
       <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
-        {/* 画像部分（1:1比率） */}
-        <div className="relative w-full aspect-square">
+        {/* 画像部分（1:1比率、縮小） */}
+        <div className="relative w-full max-w-md mx-auto aspect-square">
           <img
             src={currentType[1].image}
             alt={currentType[1].name}
