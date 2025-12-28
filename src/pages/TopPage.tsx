@@ -6,7 +6,7 @@ import heroImage from '../assets/Hero.png';
 import phoneHeroImage from '../assets/phonehero.jpeg';
 import TermsConsentNotice from '../components/TermsConsentNotice';
 import TypeSlider from '../components/TypeSlider';
-import { SITE_ALT_NAME, SITE_NAME } from '../data/site';
+import { SITE_ALT_NAME, SITE_NAME, CONTACT_EMAIL, OPERATOR_NAME } from '../data/site';
 
 export default function TopPage() {
   const navigate = useNavigate();
@@ -23,12 +23,22 @@ export default function TopPage() {
       "@context": "https://schema.org",
       "@graph": [
         {
+          "@type": "Organization",
+          "@id": `${origin}/#organization`,
+          name: SITE_NAME,
+          alternateName: SITE_ALT_NAME,
+          url: `${origin}/`,
+          email: CONTACT_EMAIL,
+          logo: `${origin}/og.svg`,
+        },
+        {
           "@type": "WebSite",
           "@id": `${origin}/#website`,
           url: `${origin}/`,
           name: SITE_NAME,
           alternateName: SITE_ALT_NAME,
           inLanguage: "ja-JP",
+          publisher: { "@id": `${origin}/#organization` },
         },
         {
           "@type": "WebPage",

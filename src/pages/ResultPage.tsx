@@ -4,7 +4,7 @@ import { Share2, RotateCcw, Star, MessageCircle } from 'lucide-react';
 import { MASK_TYPES } from '../data/maskTypes';
 import { isValidTypeCode } from '../utils/diagnosis';
 import { MaskTypeCode, Scores } from '../types/diagnosis';
-import { applySeoMeta } from '../utils/seo';
+import { applySeoMeta, applyJsonLd } from '../utils/seo';
 import { saveFeedback } from '../lib/database';
 import { SITE_ALT_NAME, SITE_NAME } from '../data/site';
 
@@ -67,7 +67,46 @@ export default function ResultPage() {
       canonicalUrl,
       ogImageUrl: `${origin}/og.svg`,
     });
-  }, [maskType.code, maskType.name]);
+
+    applyJsonLd('jsonld-result', {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "@id": `${canonicalUrl}#webpage`,
+      url: canonicalUrl,
+      name: `${maskType.name}（${maskType.code}）診断結果 - ${SITE_NAME}`,
+      description: `${maskType.shortLabel} ${maskType.description}`,
+      inLanguage: "ja-JP",
+      isPartOf: {
+        "@type": "WebSite",
+        "@id": `${origin}/#website`,
+        name: SITE_NAME,
+        url: `${origin}/`,
+      },
+      breadcrumb: {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: SITE_NAME,
+            item: `${origin}/`,
+          },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: "タイプ一覧",
+            item: `${origin}/types`,
+          },
+          {
+            "@type": "ListItem",
+            position: 3,
+            name: `${maskType.name}（${maskType.code}）`,
+            item: canonicalUrl,
+          },
+        ],
+      },
+    });
+  }, [maskType.code, maskType.name, maskType.shortLabel, maskType.description]);
 
   const axisPercentages: AxisPercentage[] | null = scores ? [
     {
