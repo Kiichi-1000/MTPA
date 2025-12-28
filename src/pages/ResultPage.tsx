@@ -243,21 +243,21 @@ export default function ResultPage() {
                   className="absolute inset-0 w-full h-full object-contain object-center"
                 />
               )}
-              {/* 画像のコントラストを少し締める（テキストは画像の下に配置） */}
-              <div className="absolute inset-0 bg-gradient-to-b from-slate-900/10 via-slate-900/15 to-slate-900/30" />
-            </div>
-
-            {/* タイプ名は画像の下に出して視認性を優先 */}
-            <div className="text-center mt-6">
-              <h2 className="text-3xl md:text-4xl font-bold text-slate-800">
-                <span className="inline-block align-middle bg-slate-800 text-white text-xl md:text-2xl font-bold px-4 py-2 rounded-xl tracking-wider mr-3">
-                  {maskType.code}
-                </span>
-                <span className="align-middle">{maskType.name}</span>
-              </h2>
-              <p className="text-lg md:text-xl text-slate-600 italic mt-3">
-                {maskType.shortLabel}
-              </p>
+              {/* 画像下部のグラデーション（テキスト視認性向上） */}
+              <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-slate-900/60" />
+              
+              {/* タイプ名を画像内の下部に配置 */}
+              <div className="absolute bottom-0 left-0 right-0 text-center px-4 py-6 md:py-8">
+                <h2 className="text-2xl md:text-3xl font-bold text-white mb-2">
+                  <span className="inline-block align-middle bg-slate-800/90 backdrop-blur-sm text-white text-lg md:text-xl font-bold px-3 py-1.5 md:px-4 md:py-2 rounded-lg tracking-wider mr-2 md:mr-3">
+                    {maskType.code}
+                  </span>
+                  <span className="align-middle drop-shadow-lg">{maskType.name}</span>
+                </h2>
+                <p className="text-base md:text-lg text-slate-100 italic drop-shadow-md">
+                  {maskType.shortLabel}
+                </p>
+              </div>
             </div>
           </div>
 
