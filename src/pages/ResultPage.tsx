@@ -106,7 +106,24 @@ export default function ResultPage() {
 
   const handleShare = (platform: 'twitter' | 'line') => {
     const url = `${window.location.origin}/type/${maskType.code}`;
-    const text = `私の仮面タイプは「${maskType.name}」でした！\n${maskType.shortLabel}\n\n#仮面診断`;
+
+    let axisText = '';
+    if (axisPercentages) {
+      axisText = axisPercentages.map(axis => {
+        const isADominant = axis.percentageA > axis.percentageB;
+        const dominantCode = isADominant ? axis.codeA : axis.codeB;
+        const dominantPercentage = isADominant ? axis.percentageA : axis.percentageB;
+        return `${axis.name}: ${dominantCode} (${dominantPercentage}%)`;
+      }).join('\n');
+    } else {
+      const tensionCode = maskType.axesSummary.tension === "Sunny" ? "S" : "M";
+      const positionCode = maskType.axesSummary.position === "Front" ? "F" : "B";
+      const distanceCode = maskType.axesSummary.distance === "Close" ? "C" : "G";
+      const workCode = maskType.axesSummary.work === "Persistent" ? "P" : "Q";
+      axisText = `テンション: ${tensionCode}\nポジション: ${positionCode}\n距離感: ${distanceCode}\nワークスタイル: ${workCode}`;
+    }
+
+    const text = `私の仮面タイプは「${maskType.name}（${maskType.code}）」でした！\n${maskType.shortLabel}\n\n【診断結果】\n${axisText}\n\n#仮面診断`;
 
     if (platform === 'twitter') {
       window.open(
