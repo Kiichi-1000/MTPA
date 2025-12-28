@@ -93,6 +93,8 @@ export default function DiagnosisPage() {
   const [currentPage, setCurrentPage] = useState(0);
   const [answers, setAnswers] = useState<Answers>({});
   const questionsContainerRef = useRef<HTMLDivElement>(null);
+  const questionCardRefs = useRef<Record<number, HTMLDivElement | null>>({});
+  const nextButtonRef = useRef<HTMLButtonElement>(null);
 
   const startIndex = currentPage * QUESTIONS_PER_PAGE;
   const endIndex = Math.min(startIndex + QUESTIONS_PER_PAGE, questions.length);
@@ -124,12 +126,60 @@ export default function DiagnosisPage() {
     }
   }, [currentPage]);
 
+  const scrollToElement = useCallback((el: HTMLElement, align: 'start' | 'center') => {
+    // OS設定（Reduce motion）を尊重
+    const prefersReducedMotion =
+      typeof window !== 'undefined' &&
+      typeof window.matchMedia === 'function' &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    const behavior: ScrollBehavior = prefersReducedMotion ? 'auto' : 'smooth';
+
+    const rect = el.getBoundingClientRect();
+    const elementTop = rect.top + window.scrollY;
+
+    const headerEl = document.querySelector('header');
+    const headerHeight = headerEl ? headerEl.getBoundingClientRect().height : 64;
+    const extraPadding = 16; // ヘッダー直下に少し余白
+
+    const top =
+      align === 'center'
+        ? elementTop - (window.innerHeight / 2 - rect.height / 2)
+        : elementTop - headerHeight - extraPadding;
+
+    window.scrollTo({ top: Math.max(0, top), behavior });
+  }, []);
+
   const handleAnswer = useCallback((questionId: number, level: AnswerLevel) => {
+    // 同じ回答を再度押した場合は何もしない（過剰スクロール防止）
+    if (answers[questionId] === level) return;
+
     setAnswers((prev) => ({
       ...prev,
       [questionId]: level
     }));
-  }, []);
+
+    // 同一ページ内の「次の質問カード」へ自動スクロール
+    const idx = currentPageQuestions.findIndex((q) => q.id === questionId);
+    if (idx < 0) return;
+
+    const next = currentPageQuestions[idx + 1];
+    if (!next) {
+      requestAnimationFrame(() => {
+        if (nextButtonRef.current) {
+          scrollToElement(nextButtonRef.current, 'center');
+        }
+      });
+      return;
+    }
+
+    requestAnimationFrame(() => {
+      const nextEl = questionCardRefs.current[next.id];
+      if (nextEl) {
+        scrollToElement(nextEl, 'start');
+      }
+    });
+  }, [answers, currentPageQuestions, scrollToElement]);
 
   const handleNext = async () => {
     if (!allCurrentPageAnswered) return;
@@ -198,7 +248,13 @@ export default function DiagnosisPage() {
 
         <div ref={questionsContainerRef} className="space-y-6 mb-8">
           {currentPageQuestions.map((question, index) => (
-            <div key={question.id} className="bg-white rounded-2xl shadow-lg p-6 md:p-8">
+            <div
+              key={question.id}
+              ref={(el) => {
+                questionCardRefs.current[question.id] = el;
+              }}
+              className="bg-white rounded-2xl shadow-lg p-6 md:p-8 scroll-mt-24"
+            >
               <div className="mb-6">
                 <span className="text-sm font-semibold text-slate-500">
                   質問 {startIndex + index + 1}
@@ -229,9 +285,10 @@ export default function DiagnosisPage() {
           </button>
 
           <button
+            ref={nextButtonRef}
             onClick={handleNext}
             disabled={!allCurrentPageAnswered}
-            className="flex items-center gap-2 px-6 py-3 bg-slate-800 text-white rounded-full font-semibold transition-all duration-200 hover:bg-slate-700 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="flex items-center gap-2 px-6 py-3 bg-slate-800 text-white rounded-full font-semibold transition-all duration-200 hover:bg-slate-700 disabled:opacity-50 disabled:cursor-not-allowed scroll-mt-24"
           >
             {isLastPage ? "結果を見る" : "次へ"}
             {!isLastPage && <ChevronRight className="w-5 h-5" />}
