@@ -233,29 +233,31 @@ export default function ResultPage() {
 
         <div className="bg-white rounded-2xl shadow-lg p-8 md:p-12 mb-6">
           <div className="mb-8">
-            <div className="relative overflow-hidden rounded-2xl">
+            <div className="relative overflow-hidden rounded-2xl aspect-square bg-slate-900">
               {maskType.image && (
                 <img
                   src={maskType.image}
                   alt={maskType.name}
                   loading="eager"
                   decoding="async"
-                  className="absolute inset-0 w-full h-full object-cover object-top"
+                  className="absolute inset-0 w-full h-full object-contain object-center"
                 />
               )}
               {/* 画像の上に暗めのグラデーションを載せて文字の視認性を確保 */}
               <div className="absolute inset-0 bg-gradient-to-b from-slate-900/10 via-slate-900/45 to-slate-900/80" />
 
-              <div className="relative px-6 py-10 md:px-10 md:py-14 text-center">
+              <div className="absolute inset-0 flex items-center justify-center p-6 md:p-10 text-center">
                 <div className="inline-block bg-white/15 backdrop-blur-sm border border-white/25 text-white text-3xl md:text-4xl font-bold px-6 py-3 rounded-2xl mb-4 tracking-wider">
                   {maskType.code}
                 </div>
-                <h2 className="text-3xl md:text-4xl font-bold text-white drop-shadow-sm mb-3">
-                  {maskType.name}
-                </h2>
-                <p className="text-lg md:text-xl text-white/90 italic drop-shadow-sm">
-                  {maskType.shortLabel}
-                </p>
+                <div>
+                  <h2 className="text-3xl md:text-4xl font-bold text-white drop-shadow-sm mb-3">
+                    {maskType.name}
+                  </h2>
+                  <p className="text-lg md:text-xl text-white/90 italic drop-shadow-sm">
+                    {maskType.shortLabel}
+                  </p>
+                </div>
               </div>
             </div>
           </div>
