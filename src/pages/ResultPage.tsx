@@ -247,12 +247,12 @@ export default function ResultPage() {
               <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-slate-900/60" />
               
               {/* タイプ名を画像内の下部に配置 */}
-              <div className="absolute bottom-0 left-0 right-0 text-center px-4 py-6 md:py-8">
-                <h2 className="text-2xl md:text-3xl font-bold text-white mb-2">
-                  <span className="inline-block align-middle bg-slate-800/90 backdrop-blur-sm text-white text-lg md:text-xl font-bold px-3 py-1.5 md:px-4 md:py-2 rounded-lg tracking-wider mr-2 md:mr-3">
+              <div className="absolute bottom-0 left-0 right-0 text-left px-4 py-6 md:py-8">
+                <h2 className="flex flex-col md:flex-row items-start justify-start gap-2 md:gap-3 text-2xl md:text-3xl font-bold text-white mb-2">
+                  <span className="bg-slate-800/90 backdrop-blur-sm text-white text-lg md:text-xl font-bold px-3 py-1.5 md:px-4 md:py-2 rounded-lg tracking-wider">
                     {maskType.code}
                   </span>
-                  <span className="align-middle drop-shadow-lg">{maskType.name}</span>
+                  <span className="drop-shadow-lg">{maskType.name}</span>
                 </h2>
                 <p className="text-base md:text-lg text-slate-100 italic drop-shadow-md">
                   {maskType.shortLabel}

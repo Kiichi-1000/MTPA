@@ -20,7 +20,7 @@ export const MASK_TYPES: Record<MaskTypeCode, MaskTypeDefinition> = {
   SFCP: {
     code: "SFCP",
     name: "明るいリーダー仮面",
-    shortLabel: "温かく、前に立ち、やり切る。みんなの太陽。",
+    shortLabel: "頼れる太陽リーダー",
     description: "明るさで場を立ち上げ、前に立って引っ張り、近い距離で巻き込み、粘り強くやり切る人。周囲に「頼れる」「前向き」「一緒にいると安心」と思われやすいタイプです。",
     image: sfcpImage,
     axesSummary: {
@@ -130,7 +130,7 @@ export const MASK_TYPES: Record<MaskTypeCode, MaskTypeDefinition> = {
   SFCQ: {
     code: "SFCQ",
     name: "フレンドリー実行者仮面",
-    shortLabel: "うまく回して、ちゃんと進める。しかも感じがいい。",
+    shortLabel: "段取り上手な推進者",
     description: "人前では明るく社交的で、前に出ることを恐れません。親しみやすく人との距離が近く、効率的に物事を進めるタイプです。",
     image: sfcqImage,
     axesSummary: {
