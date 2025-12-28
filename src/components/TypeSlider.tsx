@@ -67,7 +67,8 @@ export default function TypeSlider() {
   return (
     <div className="relative">
       <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
-        <div className="relative h-64 md:h-96">
+        {/* 画像部分（1:1比率） */}
+        <div className="relative w-full aspect-square">
           <img
             src={currentType[1].image}
             alt={currentType[1].name}
@@ -76,22 +77,6 @@ export default function TypeSlider() {
             decoding="async"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
-          
-          {/* ナビゲーションボタン */}
-          <button
-            onClick={goToPrevious}
-            className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-full p-2 text-white transition-all"
-            aria-label="前のスライド"
-          >
-            <ChevronLeft className="w-6 h-6" />
-          </button>
-          <button
-            onClick={goToNext}
-            className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-full p-2 text-white transition-all"
-            aria-label="次のスライド"
-          >
-            <ChevronRight className="w-6 h-6" />
-          </button>
 
           {/* タイプ情報 */}
           <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
@@ -115,8 +100,26 @@ export default function TypeSlider() {
           </div>
         </div>
 
+        {/* ナビゲーションボタン（画像の下） */}
+        <div className="p-4 bg-slate-50 flex items-center justify-center gap-4">
+          <button
+            onClick={goToPrevious}
+            className="bg-slate-800 hover:bg-slate-700 text-white rounded-full p-3 transition-all shadow-md hover:shadow-lg"
+            aria-label="前のスライド"
+          >
+            <ChevronLeft className="w-6 h-6" />
+          </button>
+          <button
+            onClick={goToNext}
+            className="bg-slate-800 hover:bg-slate-700 text-white rounded-full p-3 transition-all shadow-md hover:shadow-lg"
+            aria-label="次のスライド"
+          >
+            <ChevronRight className="w-6 h-6" />
+          </button>
+        </div>
+
         {/* インジケーター */}
-        <div className="p-4 bg-slate-50 flex items-center justify-center gap-2 flex-wrap">
+        <div className="p-4 bg-slate-50 flex items-center justify-center gap-2 flex-wrap border-t border-slate-200">
           {typeEntries.map(([code], index) => (
             <button
               key={code}
