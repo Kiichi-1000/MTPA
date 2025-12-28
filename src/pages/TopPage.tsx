@@ -173,7 +173,7 @@ export default function TopPage() {
                     <span className="font-semibold text-slate-800">Sunny (明るい)</span>
                   </div>
                   <p className="text-sm text-slate-600">
-                    疲れていても明るく振る舞える。周囲にポジティブなエネルギーを提供するタイプ。
+                    周囲にポジティブなエネルギーを提供するタイプ。
                   </p>
                 </div>
                 <div className="bg-white/60 rounded-lg p-4">
@@ -182,7 +182,7 @@ export default function TopPage() {
                     <span className="font-semibold text-slate-800">Moon (落ち着いた)</span>
                   </div>
                   <p className="text-sm text-slate-600">
-                    疲れると表情や態度に現れやすい。落ち着いた雰囲気で場を安定させるタイプ。
+                    落ち着いた雰囲気で場を安定させるタイプ。
                   </p>
                 </div>
               </div>
