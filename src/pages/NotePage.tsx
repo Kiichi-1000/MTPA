@@ -6,7 +6,7 @@ import { OPERATOR_NAME, SITE_ALT_NAME, SITE_NAME } from '../data/site';
 export default function NotePage() {
   useEffect(() => {
     const origin = window.location.origin;
-    const canonicalUrl = `${origin}/note`;
+    const canonicalUrl = `${origin}/note/useful`;
 
     const title = `仮面診断結果の有益な利用方法 - ${SITE_NAME}（${SITE_ALT_NAME}）`;
     const description =
@@ -51,7 +51,9 @@ export default function NotePage() {
           <p className="text-sm text-slate-500 mb-3">
             <Link to="/" className="underline underline-offset-4 hover:text-slate-700">仮面診断</Link>
             {' / '}
-            <span>Note</span>
+            <Link to="/note" className="underline underline-offset-4 hover:text-slate-700">Note</Link>
+            {' / '}
+            <span>記事</span>
           </p>
           <h1 className="text-3xl md:text-4xl font-bold text-slate-900 mb-3">
             仮面診断結果の有益な利用方法

@@ -44,6 +44,16 @@ export default function Header() {
             >
               FAQ
             </Link>
+            <Link
+              to="/note"
+              className={`text-sm font-medium transition-colors ${
+                location.pathname === '/note' || location.pathname.startsWith('/note/')
+                  ? 'text-slate-800'
+                  : 'text-slate-600 hover:text-slate-800'
+              }`}
+            >
+              Note
+            </Link>
           </nav>
         </div>
       </div>

@@ -11,6 +11,7 @@ const TypeListPage = lazy(() => import('./pages/TypeListPage'));
 const TermsPage = lazy(() => import('./pages/TermsPage'));
 const PrivacyPage = lazy(() => import('./pages/PrivacyPage'));
 const DisclaimerPage = lazy(() => import('./pages/DisclaimerPage'));
+const NoteIndexPage = lazy(() => import('./pages/NoteIndexPage'));
 const NotePage = lazy(() => import('./pages/NotePage'));
 
 function ScrollToTop() {
@@ -38,7 +39,8 @@ function App() {
               <Route path="/type/:code" element={<ResultPage />} />
               <Route path="/faq" element={<FAQPage />} />
               <Route path="/types" element={<TypeListPage />} />
-              <Route path="/note" element={<NotePage />} />
+              <Route path="/note" element={<NoteIndexPage />} />
+              <Route path="/note/useful" element={<NotePage />} />
               <Route path="/terms" element={<TermsPage />} />
               <Route path="/privacy" element={<PrivacyPage />} />
               <Route path="/disclaimer" element={<DisclaimerPage />} />
