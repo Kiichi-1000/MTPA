@@ -233,7 +233,7 @@ export default function ResultPage() {
 
         <div className="bg-white rounded-2xl shadow-lg p-8 md:p-12 mb-6">
           <div className="mb-8">
-            <div className="relative overflow-hidden rounded-2xl aspect-square bg-slate-900">
+            <div className="relative overflow-hidden rounded-2xl aspect-square bg-slate-900 w-full max-w-[360px] md:max-w-[480px] mx-auto">
               {maskType.image && (
                 <img
                   src={maskType.image}
@@ -246,7 +246,7 @@ export default function ResultPage() {
               {/* 画像の上に暗めのグラデーションを載せて文字の視認性を確保 */}
               <div className="absolute inset-0 bg-gradient-to-b from-slate-900/10 via-slate-900/45 to-slate-900/80" />
 
-              <div className="absolute inset-0 flex items-center justify-center p-6 md:p-10 text-center">
+              <div className="absolute inset-0 flex items-center justify-center p-5 md:p-8 text-center">
                 <div className="inline-block bg-white/15 backdrop-blur-sm border border-white/25 text-white text-3xl md:text-4xl font-bold px-6 py-3 rounded-2xl mb-4 tracking-wider">
                   {maskType.code}
                 </div>
