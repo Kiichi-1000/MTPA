@@ -243,22 +243,21 @@ export default function ResultPage() {
                   className="absolute inset-0 w-full h-full object-contain object-center"
                 />
               )}
-              {/* 画像の上に暗めのグラデーションを載せて文字の視認性を確保 */}
-              <div className="absolute inset-0 bg-gradient-to-b from-slate-900/10 via-slate-900/45 to-slate-900/80" />
+              {/* 画像のコントラストを少し締める（テキストは画像の下に配置） */}
+              <div className="absolute inset-0 bg-gradient-to-b from-slate-900/10 via-slate-900/15 to-slate-900/30" />
+            </div>
 
-              <div className="absolute inset-0 flex items-center justify-center p-5 md:p-8 text-center">
-                <div className="inline-block bg-white/15 backdrop-blur-sm border border-white/25 text-white text-3xl md:text-4xl font-bold px-6 py-3 rounded-2xl mb-4 tracking-wider">
+            {/* タイプ名は画像の下に出して視認性を優先 */}
+            <div className="text-center mt-6">
+              <h2 className="text-3xl md:text-4xl font-bold text-slate-800">
+                <span className="inline-block align-middle bg-slate-800 text-white text-xl md:text-2xl font-bold px-4 py-2 rounded-xl tracking-wider mr-3">
                   {maskType.code}
-                </div>
-                <div>
-                  <h2 className="text-3xl md:text-4xl font-bold text-white drop-shadow-sm mb-3">
-                    {maskType.name}
-                  </h2>
-                  <p className="text-lg md:text-xl text-white/90 italic drop-shadow-sm">
-                    {maskType.shortLabel}
-                  </p>
-                </div>
-              </div>
+                </span>
+                <span className="align-middle">{maskType.name}</span>
+              </h2>
+              <p className="text-lg md:text-xl text-slate-600 italic mt-3">
+                {maskType.shortLabel}
+              </p>
             </div>
           </div>
 
