@@ -4,3 +4,4 @@ Allow: /
 Sitemap: https://masktype.synthera.jp/sitemap.xml
 
 
+

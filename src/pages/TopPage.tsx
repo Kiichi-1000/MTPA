@@ -1,10 +1,11 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Sparkles, Users, TrendingUp, Shield } from 'lucide-react';
+import { Sparkles, Users, TrendingUp, Shield, Sun, Moon, ArrowRight, ArrowLeft, Heart, Shield as ShieldIcon, Target } from 'lucide-react';
 import { applyJsonLd, applySeoMeta } from '../utils/seo';
 import heroImage from '../assets/Hero.png';
 import phoneHeroImage from '../assets/phonehero.jpeg';
 import TermsConsentNotice from '../components/TermsConsentNotice';
+import TypeSlider from '../components/TypeSlider';
 import { SITE_ALT_NAME, SITE_NAME } from '../data/site';
 
 export default function TopPage() {
@@ -143,6 +144,167 @@ export default function TopPage() {
                 質問には、<span className="font-semibold">「人前での自分」「社会的な場面での自分」</span>をイメージして回答してください。家族や親友の前での姿ではなく、学校や職場での振る舞いを思い浮かべましょう。
               </p>
             </div>
+          </div>
+        </div>
+
+        <div className="bg-white rounded-2xl shadow-lg p-8 md:p-12 mb-8">
+          <h2 className="text-3xl font-bold text-slate-800 mb-8 text-center">
+            4つの診断軸
+          </h2>
+          <p className="text-center text-slate-600 mb-8">
+            仮面診断では、あなたの外面的な性格を4つの軸で分析します。各軸には2つの特性があり、組み合わせることで16タイプを分類します。
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* テンション軸 */}
+            <div className="bg-gradient-to-br from-yellow-50 to-orange-50 rounded-xl p-6 border-2 border-yellow-200">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="bg-yellow-400 rounded-full p-3">
+                  <Sun className="w-6 h-6 text-white" />
+                </div>
+                <h3 className="text-xl font-bold text-slate-800">テンション軸</h3>
+              </div>
+              <p className="text-slate-700 mb-4">
+                人前でのあなたの「エネルギーの出し方」を表します。
+              </p>
+              <div className="space-y-3">
+                <div className="bg-white/60 rounded-lg p-4">
+                  <div className="flex items-center gap-2 mb-2">
+                    <Sun className="w-5 h-5 text-yellow-600" />
+                    <span className="font-semibold text-slate-800">Sunny (明るい)</span>
+                  </div>
+                  <p className="text-sm text-slate-600">
+                    疲れていても明るく振る舞える。周囲にポジティブなエネルギーを提供するタイプ。
+                  </p>
+                </div>
+                <div className="bg-white/60 rounded-lg p-4">
+                  <div className="flex items-center gap-2 mb-2">
+                    <Moon className="w-5 h-5 text-slate-600" />
+                    <span className="font-semibold text-slate-800">Moon (落ち着いた)</span>
+                  </div>
+                  <p className="text-sm text-slate-600">
+                    疲れると表情や態度に現れやすい。落ち着いた雰囲気で場を安定させるタイプ。
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* ポジション軸 */}
+            <div className="bg-gradient-to-br from-blue-50 to-cyan-50 rounded-xl p-6 border-2 border-blue-200">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="bg-blue-500 rounded-full p-3">
+                  <Target className="w-6 h-6 text-white" />
+                </div>
+                <h3 className="text-xl font-bold text-slate-800">ポジション軸</h3>
+              </div>
+              <p className="text-slate-700 mb-4">
+                チームやグループでのあなたの「立ち位置」を表します。
+              </p>
+              <div className="space-y-3">
+                <div className="bg-white/60 rounded-lg p-4">
+                  <div className="flex items-center gap-2 mb-2">
+                    <ArrowRight className="w-5 h-5 text-blue-600" />
+                    <span className="font-semibold text-slate-800">Front (前に立つ)</span>
+                  </div>
+                  <p className="text-sm text-slate-600">
+                    自然に前に出て仕切る。リーダーシップを発揮しやすいタイプ。
+                  </p>
+                </div>
+                <div className="bg-white/60 rounded-lg p-4">
+                  <div className="flex items-center gap-2 mb-2">
+                    <ArrowLeft className="w-5 h-5 text-cyan-600" />
+                    <span className="font-semibold text-slate-800">Back (後ろで支える)</span>
+                  </div>
+                  <p className="text-sm text-slate-600">
+                    前に出るより後ろで支える。サポート役として力を発揮するタイプ。
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* 距離感軸 */}
+            <div className="bg-gradient-to-br from-pink-50 to-rose-50 rounded-xl p-6 border-2 border-pink-200">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="bg-pink-500 rounded-full p-3">
+                  <Heart className="w-6 h-6 text-white" />
+                </div>
+                <h3 className="text-xl font-bold text-slate-800">距離感軸</h3>
+              </div>
+              <p className="text-slate-700 mb-4">
+                他者との「心理的な距離の取り方」を表します。
+              </p>
+              <div className="space-y-3">
+                <div className="bg-white/60 rounded-lg p-4">
+                  <div className="flex items-center gap-2 mb-2">
+                    <Heart className="w-5 h-5 text-pink-600" />
+                    <span className="font-semibold text-slate-800">Close (近い距離)</span>
+                  </div>
+                  <p className="text-sm text-slate-600">
+                    フランクに話しかけやすい。距離を縮めて関係を築くタイプ。
+                  </p>
+                </div>
+                <div className="bg-white/60 rounded-lg p-4">
+                  <div className="flex items-center gap-2 mb-2">
+                    <ShieldIcon className="w-5 h-5 text-rose-600" />
+                    <span className="font-semibold text-slate-800">Guard (距離を保つ)</span>
+                  </div>
+                  <p className="text-sm text-slate-600">
+                    適度な距離感を保つ。礼儀正しく接するタイプ。
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* ワークスタイル軸 */}
+            <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl p-6 border-2 border-green-200">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="bg-green-500 rounded-full p-3">
+                  <TrendingUp className="w-6 h-6 text-white" />
+                </div>
+                <h3 className="text-xl font-bold text-slate-800">ワークスタイル軸</h3>
+              </div>
+              <p className="text-slate-700 mb-4">
+                仕事や作業でのあなたの「進め方」を表します。
+              </p>
+              <div className="space-y-3">
+                <div className="bg-white/60 rounded-lg p-4">
+                  <div className="flex items-center gap-2 mb-2">
+                    <Shield className="w-5 h-5 text-green-600" />
+                    <span className="font-semibold text-slate-800">Persistent (粘り強く)</span>
+                  </div>
+                  <p className="text-sm text-slate-600">
+                    量と質を重視し、最後まで粘り強くやり切るタイプ。
+                  </p>
+                </div>
+                <div className="bg-white/60 rounded-lg p-4">
+                  <div className="flex items-center gap-2 mb-2">
+                    <Sparkles className="w-5 h-5 text-emerald-600" />
+                    <span className="font-semibold text-slate-800">Quick (効率的に)</span>
+                  </div>
+                  <p className="text-sm text-slate-600">
+                    必要なところを押さえて、効率的に進めるタイプ。
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="bg-white rounded-2xl shadow-lg p-8 md:p-12 mb-8">
+          <h2 className="text-3xl font-bold text-slate-800 mb-4 text-center">
+            16の仮面タイプ
+          </h2>
+          <p className="text-center text-slate-600 mb-8">
+            4つの軸の組み合わせで、16種類の仮面タイプが生まれます。<br />
+            あなたはどのタイプでしょうか？
+          </p>
+          <TypeSlider />
+          <div className="mt-6 text-center">
+            <button
+              onClick={() => navigate('/types')}
+              className="inline-block px-8 py-3 bg-slate-800 text-white font-semibold rounded-lg hover:bg-slate-700 transition-colors"
+            >
+              全16タイプ一覧を見る
+            </button>
           </div>
         </div>
 
