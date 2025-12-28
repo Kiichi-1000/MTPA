@@ -33,6 +33,11 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
+                <Link to="/note" className="text-slate-300 hover:text-white text-sm transition-colors">
+                  Note（活用ガイド）
+                </Link>
+              </li>
+              <li>
                 <Link to="/faq" className="text-slate-300 hover:text-white text-sm transition-colors">
                   FAQ
                 </Link>
