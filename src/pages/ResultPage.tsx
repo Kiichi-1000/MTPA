@@ -65,7 +65,7 @@ export default function ResultPage() {
       title: `${maskType.name}（${maskType.code}）診断結果 - ${SITE_NAME}（${SITE_ALT_NAME}）`,
       description: `${SITE_NAME}（${SITE_ALT_NAME}）の${maskType.name}（${maskType.code}）タイプ。特徴・強み・弱み・学校/職場での傾向をまとめた結果ページです。`,
       canonicalUrl,
-      ogImageUrl: `${origin}/og.svg`,
+      ogImageUrl: maskType.image ? `${origin}${maskType.image}` : `${origin}/og.svg`,
     });
 
     applyJsonLd('jsonld-result', {
@@ -232,31 +232,32 @@ export default function ResultPage() {
         </div>
 
         <div className="bg-white rounded-2xl shadow-lg p-8 md:p-12 mb-6">
-          <div className="text-center mb-8">
-            {maskType.image && (
-              <div className="mb-6 flex justify-center">
-                <div className="w-64 h-64 overflow-hidden rounded-2xl">
-                  <img
-                    src={maskType.image}
-                    alt={maskType.name}
-                    loading="eager"
-                    decoding="async"
-                    width={256}
-                    height={256}
-                    className="w-full h-full object-cover object-top"
-                  />
+          <div className="mb-8">
+            <div className="relative overflow-hidden rounded-2xl">
+              {maskType.image && (
+                <img
+                  src={maskType.image}
+                  alt={maskType.name}
+                  loading="eager"
+                  decoding="async"
+                  className="absolute inset-0 w-full h-full object-cover object-top"
+                />
+              )}
+              {/* 画像の上に暗めのグラデーションを載せて文字の視認性を確保 */}
+              <div className="absolute inset-0 bg-gradient-to-b from-slate-900/10 via-slate-900/45 to-slate-900/80" />
+
+              <div className="relative px-6 py-10 md:px-10 md:py-14 text-center">
+                <div className="inline-block bg-white/15 backdrop-blur-sm border border-white/25 text-white text-3xl md:text-4xl font-bold px-6 py-3 rounded-2xl mb-4 tracking-wider">
+                  {maskType.code}
                 </div>
+                <h2 className="text-3xl md:text-4xl font-bold text-white drop-shadow-sm mb-3">
+                  {maskType.name}
+                </h2>
+                <p className="text-lg md:text-xl text-white/90 italic drop-shadow-sm">
+                  {maskType.shortLabel}
+                </p>
               </div>
-            )}
-            <div className="inline-block bg-slate-800 text-white text-4xl md:text-5xl font-bold px-8 py-4 rounded-2xl mb-4 tracking-wider">
-              {maskType.code}
             </div>
-            <h2 className="text-3xl md:text-4xl font-bold text-slate-800 mb-3">
-              {maskType.name}
-            </h2>
-            <p className="text-xl text-slate-600 italic">
-              {maskType.shortLabel}
-            </p>
           </div>
 
           <div className="border-t border-slate-200 pt-8 mb-8">
