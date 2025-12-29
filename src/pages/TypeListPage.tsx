@@ -40,7 +40,7 @@ const TypeListPage = () => {
           <h1 className="text-4xl font-bold text-slate-900 mb-4">
             16の仮面タイプ一覧
           </h1>
-          <p className="text-lg text-slate-600 max-w-2xl mx-auto">
+          <p className="text-lg text-slate-600 max-w-2xl mx-auto text-left sm:text-center">
             あなたが職場や学校で被っている仮面は、どのタイプでしょうか？
             <br />
             それぞれの特徴を理解して、自分らしい働き方を見つけましょう。
