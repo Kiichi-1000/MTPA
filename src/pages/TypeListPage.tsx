@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { MASK_TYPES } from '../data/maskTypes';
 import { MaskTypeCode } from '../types/diagnosis';
 import { Users, Target, Heart, Sparkles } from 'lucide-react';
-import { applySeoMeta } from '../utils/seo';
+import { applyJsonLd, applySeoMeta } from '../utils/seo';
 import TermsConsentNotice from '../components/TermsConsentNotice';
 import { SITE_ALT_NAME, SITE_NAME } from '../data/site';
 
@@ -26,12 +26,31 @@ const TypeListPage = () => {
   const typeEntries = Object.entries(MASK_TYPES) as [MaskTypeCode, typeof MASK_TYPES[MaskTypeCode]][];
 
   useEffect(() => {
+    const origin = window.location.origin;
     applySeoMeta({
-      title: `16タイプ一覧 - ${SITE_NAME}（${SITE_ALT_NAME}）`,
-      description: `${SITE_NAME}（${SITE_ALT_NAME}）の16タイプ一覧。各タイプの特徴・行動傾向を確認できます。`,
-      canonicalUrl: `${window.location.origin}/types`,
+      title: `MTPA（仮面診断）16タイプ一覧 - 外面性格診断タイプ別解説 | ${SITE_NAME}`,
+      description: `MTPA（仮面診断）の16タイプ性格診断一覧。外面性格診断・ヴェール診断で分類される各タイプの特徴・行動傾向・強み・弱みを詳しく解説します。`,
+      canonicalUrl: `${origin}/types`,
     });
-  }, []);
+
+    applyJsonLd('jsonld-type-list', {
+      "@context": "https://schema.org",
+      "@type": "ItemList",
+      name: "MTPA（仮面診断）16タイプ一覧",
+      description: "MTPA（仮面診断）の外面性格診断・ヴェール診断で分類される16タイプの一覧です。各タイプの特徴・行動傾向・強み・弱みを詳しく解説します。",
+      numberOfItems: 16,
+      itemListElement: typeEntries.map(([code, type], index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        item: {
+          "@type": "Thing",
+          name: `${type.name}（${code}）`,
+          description: type.shortLabel,
+          url: `${origin}/type/${code}`,
+        },
+      })),
+    });
+  }, [typeEntries]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-slate-50">
@@ -56,7 +75,7 @@ const TypeListPage = () => {
               <div className="relative h-48 overflow-hidden">
                 <img
                   src={type.image || defaultImage}
-                  alt={type.name}
+                  alt={`${type.name}（${code}）タイプ - MTPA仮面診断16タイプ性格診断`}
                   loading="lazy"
                   decoding="async"
                   width={800}

@@ -62,8 +62,8 @@ export default function ResultPage() {
     const canonicalPath = `/type/${maskType.code}`;
     const canonicalUrl = `${origin}${canonicalPath}`;
     applySeoMeta({
-      title: `${maskType.name}（${maskType.code}）診断結果 - ${SITE_NAME}（${SITE_ALT_NAME}）`,
-      description: `${SITE_NAME}（${SITE_ALT_NAME}）の${maskType.name}（${maskType.code}）タイプ。特徴・強み・弱み・学校/職場での傾向をまとめた結果ページです。`,
+      title: `${maskType.name}（${maskType.code}）診断結果 - MTPA外面性格診断 | ${SITE_NAME}`,
+      description: `MTPA（仮面診断）の${maskType.name}（${maskType.code}）タイプ診断結果。外面性格診断・ヴェール診断で分類された${maskType.code}タイプの特徴・強み・弱み・学校/職場での傾向を詳しく解説します。`,
       canonicalUrl,
       ogImageUrl: maskType.image ? `${origin}${maskType.image}` : `${origin}/og.svg`,
     });
@@ -237,7 +237,7 @@ export default function ResultPage() {
               {maskType.image && (
                 <img
                   src={maskType.image}
-                  alt={maskType.name}
+                  alt={`${maskType.name}（${maskType.code}）タイプの診断結果画像 - MTPA外面性格診断`}
                   loading="eager"
                   decoding="async"
                   className="absolute inset-0 w-full h-full object-contain object-center"
@@ -668,9 +668,32 @@ export default function ResultPage() {
           )}
         </div>
 
+        <div className="bg-white rounded-2xl shadow-lg p-8 mb-6">
+          <h3 className="text-xl font-bold text-slate-800 mb-4">
+            他のタイプを見る
+          </h3>
+          <p className="text-slate-600 mb-6">
+            MTPA（仮面診断）では、16種類のタイプを分類しています。他のタイプの特徴も確認してみましょう。
+          </p>
+          <div className="flex flex-wrap gap-3">
+            <button
+              onClick={() => navigate('/types')}
+              className="flex-1 min-w-[200px] bg-slate-800 hover:bg-slate-700 text-white font-semibold px-6 py-3 rounded-lg transition-colors duration-200"
+            >
+              全16タイプ一覧を見る
+            </button>
+            <button
+              onClick={() => navigate('/')}
+              className="flex-1 min-w-[200px] bg-slate-200 hover:bg-slate-300 text-slate-800 font-semibold px-6 py-3 rounded-lg transition-colors duration-200"
+            >
+              トップページに戻る
+            </button>
+          </div>
+        </div>
+
         <div className="text-center">
           <button
-            onClick={() => navigate('/')}
+            onClick={() => navigate('/diagnosis')}
             className="inline-flex items-center gap-2 bg-slate-800 hover:bg-slate-700 text-white font-semibold px-8 py-3 rounded-full transition-all duration-200"
           >
             <RotateCcw className="w-5 h-5" />

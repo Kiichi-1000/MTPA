@@ -4,7 +4,7 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { questions } from '../data/questions';
 import { Answers, AnswerLevel } from '../types/diagnosis';
 import { calculateScores, determineTypeCode } from '../utils/diagnosis';
-import { applySeoMeta } from '../utils/seo';
+import { applyJsonLd, applySeoMeta } from '../utils/seo';
 import { saveDiagnosisResult } from '../lib/database';
 import { SITE_ALT_NAME, SITE_NAME } from '../data/site';
 import { trackDiagnosisStart, trackDiagnosisComplete } from '../utils/analytics';
@@ -109,11 +109,46 @@ export default function DiagnosisPage() {
   );
 
   useEffect(() => {
+    const origin = window.location.origin;
     applySeoMeta({
-      title: `診断 - ${SITE_NAME}（${SITE_ALT_NAME}）`,
-      description: `${SITE_NAME}（${SITE_ALT_NAME}）で、40問の質問に答えて人前での振る舞いを4軸×16タイプで診断します（約5分）`,
-      canonicalUrl: `${window.location.origin}/diagnosis`,
+      title: `MTPA（仮面診断）で外面性格診断を開始 - 16タイプ性格診断 | ${SITE_NAME}`,
+      description: `MTPA（仮面診断）で外面性格診断・ヴェール診断を実施。40問の質問に答えて人前での振る舞いを4軸×16タイプで性格診断します（約5分・完全無料）`,
+      canonicalUrl: `${origin}/diagnosis`,
     });
+
+    applyJsonLd('jsonld-diagnosis-howto', {
+      "@context": "https://schema.org",
+      "@type": "HowTo",
+      name: "MTPA（仮面診断）で外面性格診断を行う方法",
+      description: "MTPA（仮面診断）で外面性格診断・ヴェール診断を実施する手順を説明します。40問の質問に答えて、人前での振る舞いを4軸×16タイプで性格診断します。",
+      step: [
+        {
+          "@type": "HowToStep",
+          position: 1,
+          name: "診断を開始",
+          text: "「診断を始める」ボタンをクリックして、MTPA（仮面診断）の外面性格診断を開始します。",
+        },
+        {
+          "@type": "HowToStep",
+          position: 2,
+          name: "質問に回答",
+          text: "40問の質問（5問×8ページ）に6段階で回答します。各質問は「人前での自分（学校・職場・初対面など）」をイメージして答えてください。",
+        },
+        {
+          "@type": "HowToStep",
+          position: 3,
+          name: "診断結果を確認",
+          text: "回答完了後、あなたの仮面タイプ（4文字コード）と詳細な診断結果が表示されます。",
+        },
+        {
+          "@type": "HowToStep",
+          position: 4,
+          name: "結果をシェア",
+          text: "診断結果をSNSでシェアして、友達と比較したり、自己理解を深めたりできます。",
+        },
+      ],
+    });
+
     trackDiagnosisStart();
   }, []);
 

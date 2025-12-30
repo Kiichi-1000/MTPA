@@ -14,8 +14,8 @@ export default function TopPage() {
   useEffect(() => {
     const origin = window.location.origin;
     applySeoMeta({
-      title: `${SITE_NAME} - ${SITE_ALT_NAME}`,
-      description: '学校・職場など「人前での自分（仮面）」の性格を4軸×16タイプに分類する診断サイト',
+      title: `MTPA（仮面診断）で外面性格診断 - 16タイプ性格診断ツール | ${SITE_NAME}`,
+      description: 'MTPA（仮面診断）は、学校・職場など「人前での自分（仮面）」の外面性格診断ツールです。4軸×16タイプで性格診断・ヴェール診断を行い、あなたの外面的な振る舞いを分析します。',
       canonicalUrl: `${origin}/`,
     });
 
@@ -30,6 +30,7 @@ export default function TopPage() {
           url: `${origin}/`,
           email: CONTACT_EMAIL,
           logo: `${origin}/og.svg`,
+          description: "MTPA（仮面診断）は、学校・職場など「人前での自分（仮面）」の外面性格診断・ヴェール診断ツールです。4軸×16タイプで性格診断を行い、あなたの外面的な振る舞いを分析します。",
         },
         {
           "@type": "WebSite",
@@ -39,13 +40,14 @@ export default function TopPage() {
           alternateName: SITE_ALT_NAME,
           inLanguage: "ja-JP",
           publisher: { "@id": `${origin}/#organization` },
+          keywords: "MTPA,仮面診断,性格診断,外面性格診断,ヴェール診断,16タイプ,性格診断ツール,外面診断,人前での自分,社会的な振る舞い",
         },
         {
           "@type": "WebPage",
           "@id": `${origin}/#webpage`,
           url: `${origin}/`,
-          name: `${SITE_NAME} - ${SITE_ALT_NAME}`,
-          description: '学校・職場など「人前での自分（仮面）」の性格を4軸×16タイプに分類する診断サイト',
+          name: `MTPA（仮面診断）で外面性格診断 - 16タイプ性格診断ツール | ${SITE_NAME}`,
+          description: 'MTPA（仮面診断）は、学校・職場など「人前での自分（仮面）」の外面性格診断ツールです。4軸×16タイプで性格診断・ヴェール診断を行い、あなたの外面的な振る舞いを分析します。',
           isPartOf: { "@id": `${origin}/#website` },
           inLanguage: "ja-JP",
         }
@@ -76,14 +78,14 @@ export default function TopPage() {
             </div>
           </div>
           <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight">
-            仮面診断
+            MTPA 仮面診断
           </h1>
           <p className="text-2xl md:text-3xl text-slate-200 mb-4">
             {SITE_ALT_NAME}
           </p>
           <p className="text-lg md:text-xl text-slate-300 mb-10 max-w-2xl mx-auto">
-            人前での「あなたの仮面」を診断します<br />
-            社会的な場面でのあなたの振る舞いを16タイプに分類
+            外面性格診断・ヴェール診断で人前での「あなたの仮面」を診断します<br />
+            社会的な場面でのあなたの振る舞いを16タイプに分類する性格診断ツール
           </p>
           <button
             onClick={() => navigate('/diagnosis')}
@@ -96,55 +98,73 @@ export default function TopPage() {
       </section>
 
       <div className="max-w-4xl mx-auto px-4 py-12 md:py-16">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
-          <div className="bg-white rounded-xl shadow-md p-6 text-center">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
+          <div className="bg-white rounded-xl shadow-md p-6 text-center hover:shadow-lg transition-shadow">
             <div className="flex justify-center mb-4">
               <div className="bg-slate-100 rounded-full p-3">
                 <Users className="w-8 h-8 text-slate-800" />
               </div>
             </div>
-            <h3 className="font-bold text-slate-800 mb-2">16タイプ診断</h3>
-            <p className="text-sm text-slate-600">
-              4つの軸であなたの外面的な性格を分類
+            <h3 className="font-bold text-slate-800 mb-2">16タイプ性格診断</h3>
+            <p className="text-sm text-slate-600 mb-4">
+              4つの軸であなたの外面性格診断を実施
             </p>
+            <button
+              onClick={() => navigate('/types')}
+              className="text-sm text-slate-800 font-semibold hover:underline"
+            >
+              タイプ一覧を見る →
+            </button>
           </div>
-          <div className="bg-white rounded-xl shadow-md p-6 text-center">
+          <div className="bg-white rounded-xl shadow-md p-6 text-center hover:shadow-lg transition-shadow">
             <div className="flex justify-center mb-4">
               <div className="bg-slate-100 rounded-full p-3">
                 <TrendingUp className="w-8 h-8 text-slate-800" />
               </div>
             </div>
             <h3 className="font-bold text-slate-800 mb-2">科学的根拠</h3>
-            <p className="text-sm text-slate-600">
+            <p className="text-sm text-slate-600 mb-4">
               心理学と統計学に基づいた独自開発
             </p>
+            <button
+              onClick={() => navigate('/faq')}
+              className="text-sm text-slate-800 font-semibold hover:underline"
+            >
+              FAQを見る →
+            </button>
           </div>
-          <div className="bg-white rounded-xl shadow-md p-6 text-center">
+          <div className="bg-white rounded-xl shadow-md p-6 text-center hover:shadow-lg transition-shadow">
             <div className="flex justify-center mb-4">
               <div className="bg-slate-100 rounded-full p-3">
                 <Shield className="w-8 h-8 text-slate-800" />
               </div>
             </div>
             <h3 className="font-bold text-slate-800 mb-2">完全無料</h3>
-            <p className="text-sm text-slate-600">
+            <p className="text-sm text-slate-600 mb-4">
               約5分で簡単に診断できます
             </p>
+            <button
+              onClick={() => navigate('/diagnosis')}
+              className="text-sm text-slate-800 font-semibold hover:underline"
+            >
+              診断を始める →
+            </button>
           </div>
         </div>
 
         <div className="bg-white rounded-2xl shadow-lg p-8 md:p-12 mb-8">
           <h2 className="text-2xl font-bold text-slate-800 mb-6">
-            仮面診断とは？
+            MTPA（仮面診断）とは？
           </h2>
           <div className="space-y-4 text-slate-600 leading-relaxed">
             <p>
-              仮面診断は、内面（本来の自分）ではなく、<span className="font-semibold text-slate-800">学校・職場など「人前での振る舞い」</span>に特化した性格診断です。
+              MTPA（Mask Type Personalize App、仮面診断）は、内面（本来の自分）ではなく、<span className="font-semibold text-slate-800">学校・職場など「人前での振る舞い」</span>に特化した外面性格診断・ヴェール診断ツールです。
             </p>
             <p>
-              社会的な場面でのあなたの行動パターンや対人スタイルを分析し、心理学と統計学に基づいて開発されました。
+              社会的な場面でのあなたの行動パターンや対人スタイルを分析し、心理学と統計学に基づいて開発された性格診断です。一般的な性格診断とは異なり、<span className="font-semibold text-slate-800">「人前での自分（仮面）」</span>に焦点を当てることで、より実用的な自己理解を提供します。
             </p>
             <p>
-              4つの軸（テンション・ポジション・距離感・ワークスタイル）で、あなたの「外面の性格」を16タイプに分類します。
+              4つの軸（テンション・ポジション・距離感・ワークスタイル）で、あなたの「外面の性格」を16タイプに分類する性格診断を行います。
             </p>
             <div className="bg-slate-50 rounded-lg p-6 mt-6">
               <p className="font-semibold text-slate-800 mb-2">
@@ -158,11 +178,79 @@ export default function TopPage() {
         </div>
 
         <div className="bg-white rounded-2xl shadow-lg p-8 md:p-12 mb-8">
+          <h2 className="text-2xl font-bold text-slate-800 mb-6">
+            外面性格診断の特徴
+          </h2>
+          <div className="space-y-4 text-slate-600 leading-relaxed">
+            <p>
+              MTPA（仮面診断）の外面性格診断・ヴェール診断は、従来の性格診断とは異なるアプローチを採用しています。
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
+              <div className="bg-blue-50 rounded-lg p-5">
+                <h3 className="font-semibold text-slate-800 mb-2">人前での振る舞いに特化</h3>
+                <p className="text-sm">
+                  内面ではなく、学校・職場・初対面など社会的な場面での「仮面」を分析します。実際のコミュニケーションや働き方に直結する診断結果を提供します。
+                </p>
+              </div>
+              <div className="bg-green-50 rounded-lg p-5">
+                <h3 className="font-semibold text-slate-800 mb-2">4軸×16タイプの体系的分類</h3>
+                <p className="text-sm">
+                  テンション・ポジション・距離感・ワークスタイルの4つの軸で、あなたの外面性格を16タイプに分類。シンプルでありながら、詳細な分析が可能です。
+                </p>
+              </div>
+              <div className="bg-yellow-50 rounded-lg p-5">
+                <h3 className="font-semibold text-slate-800 mb-2">実用的な活用方法</h3>
+                <p className="text-sm">
+                  診断結果は、コミュニケーション改善・チームビルディング・自己成長など、実際の場面で活用できる具体的な情報を提供します。
+                </p>
+              </div>
+              <div className="bg-purple-50 rounded-lg p-5">
+                <h3 className="font-semibold text-slate-800 mb-2">完全無料・簡単診断</h3>
+                <p className="text-sm">
+                  約5分で完了する40問の質問に答えるだけで、詳細な診断結果を無料で受け取れます。会員登録も不要です。
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="bg-white rounded-2xl shadow-lg p-8 md:p-12 mb-8">
+          <h2 className="text-2xl font-bold text-slate-800 mb-6">
+            16タイプの見分け方
+          </h2>
+          <div className="space-y-4 text-slate-600 leading-relaxed">
+            <p>
+              MTPA（仮面診断）では、4つの軸の組み合わせで16タイプを分類します。各タイプは4文字のコード（例：SFCP、MBCQ）で表され、それぞれ独自の特徴を持っています。
+            </p>
+            <div className="bg-slate-50 rounded-lg p-6 mt-6">
+              <h3 className="font-semibold text-slate-800 mb-3">タイプコードの見方</h3>
+              <ul className="space-y-2 text-sm">
+                <li><span className="font-semibold">1文字目（テンション）</span>：S（Sunny/明るい）またはM（Moon/落ち着いた）</li>
+                <li><span className="font-semibold">2文字目（ポジション）</span>：F（Front/前に立つ）またはB（Back/後ろで支える）</li>
+                <li><span className="font-semibold">3文字目（距離感）</span>：C（Close/親しみやすい）またはG（Guard/距離を保つ）</li>
+                <li><span className="font-semibold">4文字目（ワークスタイル）</span>：P（Persistent/粘り強い）またはQ（Quick/効率的）</li>
+              </ul>
+            </div>
+            <p className="mt-4">
+              例えば、<span className="font-semibold text-slate-800">SFCP</span>は「明るく（S）、前に立ち（F）、親しみやすく（C）、粘り強く（P）」という特徴を持つタイプです。各タイプには、強み・弱み・職場での傾向・コミュニケーションスタイルなど、詳細な情報が提供されます。
+            </p>
+            <div className="mt-6">
+              <button
+                onClick={() => navigate('/types')}
+                className="inline-block px-6 py-3 bg-slate-800 text-white font-semibold rounded-lg hover:bg-slate-700 transition-colors"
+              >
+                全16タイプの詳細を見る →
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div className="bg-white rounded-2xl shadow-lg p-8 md:p-12 mb-8">
           <h2 className="text-3xl font-bold text-slate-800 mb-8 text-center">
             4つの診断軸
           </h2>
           <p className="text-center text-slate-600 mb-8">
-            仮面診断では、あなたの外面的な性格を4つの軸で分析します。各軸には2つの特性があり、組み合わせることで16タイプを分類します。
+            MTPA（仮面診断）では、あなたの外面的な性格を4つの軸で分析する外面性格診断を実施します。各軸には2つの特性があり、組み合わせることで16タイプの性格診断を行います。
           </p>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* テンション軸 */}
@@ -305,7 +393,7 @@ export default function TopPage() {
           </h2>
           <p className="text-center text-slate-600 mb-8">
             4つの軸の組み合わせで、16種類の仮面タイプが生まれます。<br />
-            あなたはどのタイプでしょうか？
+            MTPA（仮面診断）で外面性格診断を行い、あなたはどのタイプでしょうか？
           </p>
           <TypeSlider />
           <div className="mt-6 text-center">

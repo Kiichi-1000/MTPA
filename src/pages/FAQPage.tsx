@@ -66,8 +66,8 @@ export default function FAQPage() {
   useEffect(() => {
     const origin = window.location.origin;
     applySeoMeta({
-      title: `よくある質問 - ${SITE_NAME}（${SITE_ALT_NAME}）`,
-      description: `${SITE_NAME}（${SITE_ALT_NAME}）についてのよくある質問と回答をまとめています。`,
+      title: `MTPA（仮面診断）よくある質問 - 外面性格診断FAQ | ${SITE_NAME}`,
+      description: `MTPA（仮面診断）・外面性格診断・ヴェール診断についてのよくある質問と回答をまとめています。16タイプ性格診断の使い方や診断結果の見方などを解説します。`,
       canonicalUrl: `${origin}/faq`,
     });
 
