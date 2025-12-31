@@ -597,76 +597,79 @@ export default function ResultPage() {
           </div>
         </div>
 
-        <div className="bg-white rounded-2xl shadow-lg p-8 mb-6">
-          <h3 className="text-xl font-bold text-slate-800 mb-4 flex items-center gap-2">
-            <MessageCircle className="w-6 h-6" />
-            フィードバック
-          </h3>
-          {!feedbackSubmitted ? (
-            <div className="space-y-4">
-              <div>
-                <p className="text-slate-700 mb-3">診断結果に満足しましたか？</p>
-                <div className="flex items-center gap-2">
-                  {[1, 2, 3, 4, 5].map((value) => (
-                    <button
-                      key={value}
-                      type="button"
-                      onMouseEnter={() => setHoveredRating(value)}
-                      onMouseLeave={() => setHoveredRating(0)}
-                      onClick={() => setRating(value)}
-                      className="transition-transform hover:scale-110 focus:outline-none"
-                      disabled={isSubmitting}
-                    >
-                      <Star
-                        className={`w-10 h-10 ${
-                          value <= (hoveredRating || rating)
-                            ? 'fill-yellow-400 text-yellow-400'
-                            : 'text-slate-300'
-                        } transition-colors`}
-                      />
-                    </button>
-                  ))}
-                  {rating > 0 && (
-                    <span className="ml-2 text-slate-600 font-medium">
-                      {rating === 1 && '不満'}
-                      {rating === 2 && 'やや不満'}
-                      {rating === 3 && '普通'}
-                      {rating === 4 && '満足'}
-                      {rating === 5 && 'とても満足'}
-                    </span>
-                  )}
+        {/* フィードバックセクション - 一時的に非表示 */}
+        {false && (
+          <div className="bg-white rounded-2xl shadow-lg p-8 mb-6">
+            <h3 className="text-xl font-bold text-slate-800 mb-4 flex items-center gap-2">
+              <MessageCircle className="w-6 h-6" />
+              フィードバック
+            </h3>
+            {!feedbackSubmitted ? (
+              <div className="space-y-4">
+                <div>
+                  <p className="text-slate-700 mb-3">診断結果に満足しましたか？</p>
+                  <div className="flex items-center gap-2">
+                    {[1, 2, 3, 4, 5].map((value) => (
+                      <button
+                        key={value}
+                        type="button"
+                        onMouseEnter={() => setHoveredRating(value)}
+                        onMouseLeave={() => setHoveredRating(0)}
+                        onClick={() => setRating(value)}
+                        className="transition-transform hover:scale-110 focus:outline-none"
+                        disabled={isSubmitting}
+                      >
+                        <Star
+                          className={`w-10 h-10 ${
+                            value <= (hoveredRating || rating)
+                              ? 'fill-yellow-400 text-yellow-400'
+                              : 'text-slate-300'
+                          } transition-colors`}
+                        />
+                      </button>
+                    ))}
+                    {rating > 0 && (
+                      <span className="ml-2 text-slate-600 font-medium">
+                        {rating === 1 && '不満'}
+                        {rating === 2 && 'やや不満'}
+                        {rating === 3 && '普通'}
+                        {rating === 4 && '満足'}
+                        {rating === 5 && 'とても満足'}
+                      </span>
+                    )}
+                  </div>
                 </div>
+                <div>
+                  <label htmlFor="feedback-comment" className="block text-slate-700 mb-2">
+                    コメント（任意）
+                  </label>
+                  <textarea
+                    id="feedback-comment"
+                    value={comment}
+                    onChange={(e) => setComment(e.target.value)}
+                    placeholder="診断についてのご意見やご感想をお聞かせください"
+                    rows={4}
+                    className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-slate-500 focus:border-transparent transition-all resize-none"
+                    disabled={isSubmitting}
+                  />
+                </div>
+                <button
+                  onClick={handleSubmitFeedback}
+                  disabled={isSubmitting || rating === 0}
+                  className="w-full bg-slate-800 hover:bg-slate-700 text-white font-semibold px-6 py-3 rounded-lg transition-colors duration-200 disabled:bg-slate-400 disabled:cursor-not-allowed"
+                >
+                  {isSubmitting ? '送信中...' : 'フィードバックを送信'}
+                </button>
               </div>
-              <div>
-                <label htmlFor="feedback-comment" className="block text-slate-700 mb-2">
-                  コメント（任意）
-                </label>
-                <textarea
-                  id="feedback-comment"
-                  value={comment}
-                  onChange={(e) => setComment(e.target.value)}
-                  placeholder="診断についてのご意見やご感想をお聞かせください"
-                  rows={4}
-                  className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-slate-500 focus:border-transparent transition-all resize-none"
-                  disabled={isSubmitting}
-                />
+            ) : (
+              <div className="bg-green-50 border border-green-200 rounded-lg p-6 text-center">
+                <p className="text-green-800 font-medium text-lg">
+                  フィードバックをお送りいただき、ありがとうございました！
+                </p>
               </div>
-              <button
-                onClick={handleSubmitFeedback}
-                disabled={isSubmitting || rating === 0}
-                className="w-full bg-slate-800 hover:bg-slate-700 text-white font-semibold px-6 py-3 rounded-lg transition-colors duration-200 disabled:bg-slate-400 disabled:cursor-not-allowed"
-              >
-                {isSubmitting ? '送信中...' : 'フィードバックを送信'}
-              </button>
-            </div>
-          ) : (
-            <div className="bg-green-50 border border-green-200 rounded-lg p-6 text-center">
-              <p className="text-green-800 font-medium text-lg">
-                フィードバックをお送りいただき、ありがとうございました！
-              </p>
-            </div>
-          )}
-        </div>
+            )}
+          </div>
+        )}
 
         <div className="bg-white rounded-2xl shadow-lg p-8 mb-6">
           <h3 className="text-xl font-bold text-slate-800 mb-4">
