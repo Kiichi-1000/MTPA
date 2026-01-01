@@ -1,15 +1,78 @@
-import { useEffect } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Sparkles, Users, TrendingUp, Shield, Sun, Moon, ArrowRight, ArrowLeft, Heart, Shield as ShieldIcon, Target } from 'lucide-react';
+import { Users, TrendingUp, Shield } from 'lucide-react';
 import { applyJsonLd, applySeoMeta } from '../utils/seo';
 import heroImage from '../assets/Hero.png';
 import phoneHeroImage from '../assets/phonehero.jpeg';
-import TermsConsentNotice from '../components/TermsConsentNotice';
-import TypeSlider from '../components/TypeSlider';
 import { SITE_ALT_NAME, SITE_NAME, CONTACT_EMAIL, OPERATOR_NAME } from '../data/site';
+import { questions } from '../data/questions';
+import { AnswerLevel } from '../types/diagnosis';
+import { ScaleSelector } from '../components/ScaleSelector';
 
 export default function TopPage() {
   const navigate = useNavigate();
+  const [answers, setAnswers] = useState<Record<number, AnswerLevel>>({});
+  
+  // 最初の5問を取得
+  const firstPageQuestions = useMemo(() => questions.slice(0, 5), []);
+  const questionsContainerRef = useRef<HTMLDivElement>(null);
+  const questionCardRefs = useRef<Record<number, HTMLDivElement | null>>({});
+  const nextButtonRef = useRef<HTMLButtonElement>(null);
+
+  const scrollToElement = useCallback((el: HTMLElement, align: 'start' | 'center') => {
+    // OS設定（Reduce motion）を尊重
+    const prefersReducedMotion =
+      typeof window !== 'undefined' &&
+      typeof window.matchMedia === 'function' &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    const behavior: ScrollBehavior = prefersReducedMotion ? 'auto' : 'smooth';
+
+    const rect = el.getBoundingClientRect();
+    const elementTop = rect.top + window.scrollY;
+
+    const headerEl = document.querySelector('header');
+    const headerHeight = headerEl ? headerEl.getBoundingClientRect().height : 64;
+    const extraPadding = 16; // ヘッダー直下に少し余白
+
+    const top =
+      align === 'center'
+        ? elementTop - (window.innerHeight / 2 - rect.height / 2)
+        : elementTop - headerHeight - extraPadding;
+
+    window.scrollTo({ top: Math.max(0, top), behavior });
+  }, []);
+
+  const handleAnswer = useCallback((questionId: number, level: AnswerLevel) => {
+    // 同じ回答を再度押した場合は何もしない（過剰スクロール防止）
+    if (answers[questionId] === level) return;
+
+    setAnswers((prev) => ({
+      ...prev,
+      [questionId]: level
+    }));
+
+    // 同一ページ内の「次の質問カード」へ自動スクロール
+    const idx = firstPageQuestions.findIndex((q) => q.id === questionId);
+    if (idx < 0) return;
+
+    const next = firstPageQuestions[idx + 1];
+    if (!next) {
+      requestAnimationFrame(() => {
+        if (nextButtonRef.current) {
+          scrollToElement(nextButtonRef.current, 'center');
+        }
+      });
+      return;
+    }
+
+    requestAnimationFrame(() => {
+      const nextEl = questionCardRefs.current[next.id];
+      if (nextEl) {
+        scrollToElement(nextEl, 'start');
+      }
+    });
+  }, [answers, firstPageQuestions, scrollToElement]);
 
   useEffect(() => {
     const origin = window.location.origin;
@@ -57,7 +120,7 @@ export default function TopPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
-      <section className="relative overflow-hidden text-white py-20 md:py-32">
+      <section className="relative overflow-hidden text-white pt-0 pb-8 md:pb-16 md:pt-20 min-h-[60vh] md:min-h-[85vh]">
         <picture>
           <source media="(min-width: 768px)" srcSet={heroImage} />
           <img
@@ -67,343 +130,173 @@ export default function TopPage() {
             className="absolute inset-0 w-full h-full object-cover"
             loading="eager"
             decoding="async"
-            fetchPriority="high"
           />
         </picture>
         <div className="absolute inset-0 bg-gradient-to-br from-slate-900/80 via-slate-800/70 to-slate-900/85" />
-        <div className="relative z-10 max-w-6xl mx-auto px-4 text-center">
-          <div className="flex justify-center mb-8">
-            <div className="bg-white/10 backdrop-blur-sm rounded-full p-6 border border-white/20">
-              <Sparkles className="w-16 h-16 text-white" />
-            </div>
-          </div>
-          <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight">
-            MTPA 仮面診断
-          </h1>
-          <p className="text-2xl md:text-3xl text-slate-200 mb-4">
-            {SITE_ALT_NAME}
-          </p>
-          <p className="text-lg md:text-xl text-slate-300 mb-10 max-w-2xl mx-auto">
-            外面性格診断・ヴェール診断で人前での「あなたの仮面」を診断します<br />
-            社会的な場面でのあなたの振る舞いを16タイプに分類する性格診断ツール
-          </p>
-          <button
-            onClick={() => navigate('/diagnosis')}
-            className="bg-white text-slate-800 hover:bg-slate-100 font-bold text-lg px-12 py-4 rounded-full shadow-2xl transition-all duration-200 transform hover:scale-105"
-          >
-            今すぐ診断を始める
-          </button>
-          <TermsConsentNotice />
-        </div>
-      </section>
+        <div className="relative z-10 max-w-6xl mx-auto px-4 h-full flex flex-col">
+          <div className="flex-1"></div>
+          <div className="flex flex-col items-center justify-end pb-2 md:pb-6">
+            <div className="text-center mb-0 md:mb-4 w-full md:max-w-4xl md:mx-auto">
+              <div className="mb-6 md:mb-8">
+                <h1 className="text-5xl md:text-7xl leading-tight tracking-tight text-white drop-shadow-2xl">
+                  <span className="text-4xl md:text-6xl font-bold tracking-wider whitespace-nowrap absolute top-[200px] left-1/2 -translate-x-1/2 md:static md:translate-x-0">仮面診断MTPA</span>
+                </h1>
+              </div>
+              <div className="flex flex-col items-center justify-center gap-6 mb-0 md:mt-16 md:mb-6 md:gap-4">
+                {/* PC版: 以前どおり、単体でabsolute配置 */}
+                <button
+                  onClick={() => navigate('/diagnosis')}
+                  className="hidden md:inline-flex group absolute top-[265px] md:absolute bg-white text-slate-900 hover:bg-slate-50 font-bold text-lg px-10 py-4 rounded-full shadow-2xl transition-all duration-300 transform hover:scale-105 hover:shadow-white/20 border-2 border-white/20 backdrop-blur-sm md:hover:shadow-white/30"
+                >
+                  <span className="relative z-10">今すぐ診断を始める</span>
+                  <span className="rounded-full bg-gradient-to-r from-white/0 via-white/20 to-white/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+                </button>
 
-      <div className="max-w-4xl mx-auto px-4 py-12 md:py-16">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
-          <div className="bg-white rounded-xl shadow-md p-6 text-center hover:shadow-lg transition-shadow">
-            <div className="flex justify-center mb-4">
-              <div className="bg-slate-100 rounded-full p-3">
-                <Users className="w-8 h-8 text-slate-800" />
-              </div>
-            </div>
-            <h3 className="font-bold text-slate-800 mb-2">16タイプ性格診断</h3>
-            <p className="text-sm text-slate-600 mb-4">
-              4つの軸であなたの外面性格診断を実施
-            </p>
-            <button
-              onClick={() => navigate('/types')}
-              className="text-sm text-slate-800 font-semibold hover:underline"
-            >
-              タイプ一覧を見る →
-            </button>
-          </div>
-          <div className="bg-white rounded-xl shadow-md p-6 text-center hover:shadow-lg transition-shadow">
-            <div className="flex justify-center mb-4">
-              <div className="bg-slate-100 rounded-full p-3">
-                <TrendingUp className="w-8 h-8 text-slate-800" />
-              </div>
-            </div>
-            <h3 className="font-bold text-slate-800 mb-2">科学的根拠</h3>
-            <p className="text-sm text-slate-600 mb-4">
-              心理学と統計学に基づいた独自開発
-            </p>
-            <button
-              onClick={() => navigate('/faq')}
-              className="text-sm text-slate-800 font-semibold hover:underline"
-            >
-              FAQを見る →
-            </button>
-          </div>
-          <div className="bg-white rounded-xl shadow-md p-6 text-center hover:shadow-lg transition-shadow">
-            <div className="flex justify-center mb-4">
-              <div className="bg-slate-100 rounded-full p-3">
-                <Shield className="w-8 h-8 text-slate-800" />
-              </div>
-            </div>
-            <h3 className="font-bold text-slate-800 mb-2">完全無料</h3>
-            <p className="text-sm text-slate-600 mb-4">
-              約5分で簡単に診断できます
-            </p>
-            <button
-              onClick={() => navigate('/diagnosis')}
-              className="text-sm text-slate-800 font-semibold hover:underline"
-            >
-              診断を始める →
-            </button>
-          </div>
-        </div>
+                {/* スマホ版: CTA直下に「仮面診断とは？」を表示 */}
+                <div className="md:hidden absolute top-[265px] left-1/2 -translate-x-1/2 flex flex-col items-center gap-4">
+                  <button
+                    onClick={() => navigate('/diagnosis')}
+                    className="group whitespace-nowrap bg-white text-slate-900 hover:bg-slate-50 font-bold text-base px-6 py-4 rounded-full shadow-2xl transition-all duration-300 transform hover:scale-105 hover:shadow-white/20 border-2 border-white/20 backdrop-blur-sm"
+                  >
+                    <span className="relative z-10">今すぐ診断を始める</span>
+                    <span className="rounded-full bg-gradient-to-r from-white/0 via-white/20 to-white/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+                  </button>
 
-        <div className="bg-white rounded-2xl shadow-lg p-8 md:p-12 mb-8">
-          <h2 className="text-2xl font-bold text-slate-800 mb-6">
-            MTPA（仮面診断）とは？
-          </h2>
-          <div className="space-y-4 text-slate-600 leading-relaxed">
-            <p>
-              MTPA（Mask Type Personalize App、仮面診断）は、内面（本来の自分）ではなく、<span className="font-semibold text-slate-800">学校・職場など「人前での振る舞い」</span>に特化した外面性格診断・ヴェール診断ツールです。
-            </p>
-            <p>
-              社会的な場面でのあなたの行動パターンや対人スタイルを分析し、心理学と統計学に基づいて開発された性格診断です。一般的な性格診断とは異なり、<span className="font-semibold text-slate-800">「人前での自分（仮面）」</span>に焦点を当てることで、より実用的な自己理解を提供します。
-            </p>
-            <p>
-              4つの軸（テンション・ポジション・距離感・ワークスタイル）で、あなたの「外面の性格」を16タイプに分類する性格診断を行います。
-            </p>
-            <div className="bg-slate-50 rounded-lg p-6 mt-6">
-              <p className="font-semibold text-slate-800 mb-2">
-                重要：回答時の心構え
-              </p>
-              <p className="text-sm">
-                質問には、<span className="font-semibold">「人前での自分」「社会的な場面での自分」</span>をイメージして回答してください。家族や親友の前での姿ではなく、学校や職場での振る舞いを思い浮かべましょう。
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <div className="bg-white rounded-2xl shadow-lg p-8 md:p-12 mb-8">
-          <h2 className="text-2xl font-bold text-slate-800 mb-6">
-            外面性格診断の特徴
-          </h2>
-          <div className="space-y-4 text-slate-600 leading-relaxed">
-            <p>
-              MTPA（仮面診断）の外面性格診断・ヴェール診断は、従来の性格診断とは異なるアプローチを採用しています。
-            </p>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
-              <div className="bg-blue-50 rounded-lg p-5">
-                <h3 className="font-semibold text-slate-800 mb-2">人前での振る舞いに特化</h3>
-                <p className="text-sm">
-                  内面ではなく、学校・職場・初対面など社会的な場面での「仮面」を分析します。実際のコミュニケーションや働き方に直結する診断結果を提供します。
-                </p>
-              </div>
-              <div className="bg-green-50 rounded-lg p-5">
-                <h3 className="font-semibold text-slate-800 mb-2">4軸×16タイプの体系的分類</h3>
-                <p className="text-sm">
-                  テンション・ポジション・距離感・ワークスタイルの4つの軸で、あなたの外面性格を16タイプに分類。シンプルでありながら、詳細な分析が可能です。
-                </p>
-              </div>
-              <div className="bg-yellow-50 rounded-lg p-5">
-                <h3 className="font-semibold text-slate-800 mb-2">実用的な活用方法</h3>
-                <p className="text-sm">
-                  診断結果は、コミュニケーション改善・チームビルディング・自己成長など、実際の場面で活用できる具体的な情報を提供します。
-                </p>
-              </div>
-              <div className="bg-purple-50 rounded-lg p-5">
-                <h3 className="font-semibold text-slate-800 mb-2">完全無料・簡単診断</h3>
-                <p className="text-sm">
-                  約5分で完了する40問の質問に答えるだけで、詳細な診断結果を無料で受け取れます。会員登録も不要です。
-                </p>
+                  <button
+                    onClick={() => navigate('/about')}
+                    className="text-slate-300 hover:text-white font-medium text-base transition-all duration-300 underline underline-offset-4 decoration-2 decoration-slate-300/50 hover:decoration-white/80 tracking-wide"
+                  >
+                    仮面診断とは？
+                  </button>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-
-        <div className="bg-white rounded-2xl shadow-lg p-8 md:p-12 mb-8">
-          <h2 className="text-2xl font-bold text-slate-800 mb-6">
-            16タイプの見分け方
-          </h2>
-          <div className="space-y-4 text-slate-600 leading-relaxed">
-            <p>
-              MTPA（仮面診断）では、4つの軸の組み合わせで16タイプを分類します。各タイプは4文字のコード（例：SFCP、MBCQ）で表され、それぞれ独自の特徴を持っています。
-            </p>
-            <div className="bg-slate-50 rounded-lg p-6 mt-6">
-              <h3 className="font-semibold text-slate-800 mb-3">タイプコードの見方</h3>
-              <ul className="space-y-2 text-sm">
-                <li><span className="font-semibold">1文字目（テンション）</span>：S（Sunny/明るい）またはM（Moon/落ち着いた）</li>
-                <li><span className="font-semibold">2文字目（ポジション）</span>：F（Front/前に立つ）またはB（Back/後ろで支える）</li>
-                <li><span className="font-semibold">3文字目（距離感）</span>：C（Close/親しみやすい）またはG（Guard/距離を保つ）</li>
-                <li><span className="font-semibold">4文字目（ワークスタイル）</span>：P（Persistent/粘り強い）またはQ（Quick/効率的）</li>
-              </ul>
+          <div className="md:mt-auto max-w-md md:max-w-6xl mx-auto w-full pb-10 md:pb-12 md:pt-10">
+            <div className="hidden md:grid md:mt-[150px] grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
+              <div className="bg-white/50 md:bg-white/75 backdrop-blur-sm rounded-xl shadow-lg p-3 md:p-6 text-center hover:shadow-xl transition-all duration-300 hover:scale-105 border border-white/20 md:hover:-translate-y-1">
+                <div className="flex justify-center mb-2 md:mb-4">
+                  <div className="bg-slate-800 rounded-full p-2 md:p-3">
+                    <Users className="w-6 h-6 md:w-8 md:h-8 text-white" />
+                  </div>
+                </div>
+                <h3 className="font-bold text-slate-800 mb-1 md:mb-2 text-sm md:text-base">16タイプ性格診断</h3>
+                <p className="text-xs md:text-sm text-slate-600 mb-2 md:mb-4">
+                  4つの軸であなたの外面性格診断を実施
+                </p>
+                <button
+                  onClick={() => navigate('/types')}
+                  className="text-xs md:text-sm text-slate-800 font-semibold hover:underline"
+                >
+                  タイプ一覧を見る →
+                </button>
+              </div>
+              <div className="bg-white/50 md:bg-white/75 backdrop-blur-sm rounded-xl shadow-lg p-3 md:p-6 text-center hover:shadow-xl transition-all duration-300 hover:scale-105 border border-white/20 md:hover:-translate-y-1">
+                <div className="flex justify-center mb-2 md:mb-4">
+                  <div className="bg-slate-800 rounded-full p-2 md:p-3">
+                    <TrendingUp className="w-6 h-6 md:w-8 md:h-8 text-white" />
+                  </div>
+                </div>
+                <h3 className="font-bold text-slate-800 mb-1 md:mb-2 text-sm md:text-base">科学的根拠</h3>
+                <p className="text-xs md:text-sm text-slate-600 mb-2 md:mb-4">
+                  心理学と統計学に基づいた独自開発
+                </p>
+                <button
+                  onClick={() => navigate('/faq')}
+                  className="text-xs md:text-sm text-slate-800 font-semibold hover:underline"
+                >
+                  FAQを見る →
+                </button>
+              </div>
+              <div className="bg-white/50 md:bg-white/75 backdrop-blur-sm rounded-xl shadow-lg p-3 md:p-6 text-center hover:shadow-xl transition-all duration-300 hover:scale-105 border border-white/20 md:hover:-translate-y-1">
+                <div className="flex justify-center mb-2 md:mb-4">
+                  <div className="bg-slate-800 rounded-full p-2 md:p-3">
+                    <Shield className="w-6 h-6 md:w-8 md:h-8 text-white" />
+                  </div>
+                </div>
+                <h3 className="font-bold text-slate-800 mb-1 md:mb-2 text-sm md:text-base">完全無料</h3>
+                <p className="text-xs md:text-sm text-slate-600 mb-2 md:mb-4">
+                  約5分で簡単に診断できます
+                </p>
+                <button
+                  onClick={() => navigate('/diagnosis')}
+                  className="text-xs md:text-sm text-slate-800 font-semibold hover:underline"
+                >
+                  診断を始める →
+                </button>
+              </div>
             </div>
-            <p className="mt-4">
-              例えば、<span className="font-semibold text-slate-800">SFCP</span>は「明るく（S）、前に立ち（F）、親しみやすく（C）、粘り強く（P）」という特徴を持つタイプです。各タイプには、強み・弱み・職場での傾向・コミュニケーションスタイルなど、詳細な情報が提供されます。
-            </p>
-            <div className="mt-6">
+
+            <div className="hidden md:flex justify-center mt-[82px]">
               <button
-                onClick={() => navigate('/types')}
-                className="inline-block px-6 py-3 bg-slate-800 text-white font-semibold rounded-lg hover:bg-slate-700 transition-colors"
+                onClick={() => navigate('/about')}
+                className="text-slate-300 hover:text-white font-medium text-base transition-all duration-300 hover:underline underline-offset-4 decoration-2 decoration-slate-300/50 hover:decoration-white/80 tracking-wide"
               >
-                全16タイプの詳細を見る →
+                仮面診断とは？
               </button>
             </div>
           </div>
         </div>
+      </section>
 
-        <div className="bg-white rounded-2xl shadow-lg p-8 md:p-12 mb-8">
-          <h2 className="text-3xl font-bold text-slate-800 mb-8 text-center">
-            4つの診断軸
-          </h2>
-          <p className="text-center text-slate-600 mb-8">
-            MTPA（仮面診断）では、あなたの外面的な性格を4つの軸で分析する外面性格診断を実施します。各軸には2つの特性があり、組み合わせることで16タイプの性格診断を行います。
+      <div className="max-w-4xl mx-auto px-4 py-12 md:py-16">
+
+        {/* 診断ページの1枚目を表示 */}
+        <div className="mb-6">
+          <p className="text-center text-slate-500 text-sm">
+            「人前での自分」をイメージして回答してください
           </p>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* テンション軸 */}
-            <div className="bg-gradient-to-br from-yellow-50 to-orange-50 rounded-xl p-6 border-2 border-yellow-200">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="bg-yellow-400 rounded-full p-3">
-                  <Sun className="w-6 h-6 text-white" />
-                </div>
-                <h3 className="text-xl font-bold text-slate-800">テンション軸</h3>
-              </div>
-              <p className="text-slate-700 mb-4">
-                人前でのあなたの「エネルギーの出し方」を表します。
-              </p>
-              <div className="space-y-3">
-                <div className="bg-white/60 rounded-lg p-4">
-                  <div className="flex items-center gap-2 mb-2">
-                    <Sun className="w-5 h-5 text-yellow-600" />
-                    <span className="font-semibold text-slate-800">Sunny (明るい)</span>
-                  </div>
-                  <p className="text-sm text-slate-600">
-                    周囲にポジティブなエネルギーを提供するタイプ。
-                  </p>
-                </div>
-                <div className="bg-white/60 rounded-lg p-4">
-                  <div className="flex items-center gap-2 mb-2">
-                    <Moon className="w-5 h-5 text-slate-600" />
-                    <span className="font-semibold text-slate-800">Moon (落ち着いた)</span>
-                  </div>
-                  <p className="text-sm text-slate-600">
-                    落ち着いた雰囲気で場を安定させるタイプ。
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* ポジション軸 */}
-            <div className="bg-gradient-to-br from-blue-50 to-cyan-50 rounded-xl p-6 border-2 border-blue-200">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="bg-blue-500 rounded-full p-3">
-                  <Target className="w-6 h-6 text-white" />
-                </div>
-                <h3 className="text-xl font-bold text-slate-800">ポジション軸</h3>
-              </div>
-              <p className="text-slate-700 mb-4">
-                チームやグループでのあなたの「立ち位置」を表します。
-              </p>
-              <div className="space-y-3">
-                <div className="bg-white/60 rounded-lg p-4">
-                  <div className="flex items-center gap-2 mb-2">
-                    <ArrowRight className="w-5 h-5 text-blue-600" />
-                    <span className="font-semibold text-slate-800">Front (前に立つ)</span>
-                  </div>
-                  <p className="text-sm text-slate-600">
-                    自然に前に出て仕切る。リーダーシップを発揮しやすいタイプ。
-                  </p>
-                </div>
-                <div className="bg-white/60 rounded-lg p-4">
-                  <div className="flex items-center gap-2 mb-2">
-                    <ArrowLeft className="w-5 h-5 text-cyan-600" />
-                    <span className="font-semibold text-slate-800">Back (後ろで支える)</span>
-                  </div>
-                  <p className="text-sm text-slate-600">
-                    前に出るより後ろで支える。サポート役として力を発揮するタイプ。
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* 距離感軸 */}
-            <div className="bg-gradient-to-br from-pink-50 to-rose-50 rounded-xl p-6 border-2 border-pink-200">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="bg-pink-500 rounded-full p-3">
-                  <Heart className="w-6 h-6 text-white" />
-                </div>
-                <h3 className="text-xl font-bold text-slate-800">距離感軸</h3>
-              </div>
-              <p className="text-slate-700 mb-4">
-                他者との「心理的な距離の取り方」を表します。
-              </p>
-              <div className="space-y-3">
-                <div className="bg-white/60 rounded-lg p-4">
-                  <div className="flex items-center gap-2 mb-2">
-                    <Heart className="w-5 h-5 text-pink-600" />
-                    <span className="font-semibold text-slate-800">Close (近い距離)</span>
-                  </div>
-                  <p className="text-sm text-slate-600">
-                    フランクに話しかけやすい。距離を縮めて関係を築くタイプ。
-                  </p>
-                </div>
-                <div className="bg-white/60 rounded-lg p-4">
-                  <div className="flex items-center gap-2 mb-2">
-                    <ShieldIcon className="w-5 h-5 text-rose-600" />
-                    <span className="font-semibold text-slate-800">Guard (距離を保つ)</span>
-                  </div>
-                  <p className="text-sm text-slate-600">
-                    適度な距離感を保つ。礼儀正しく接するタイプ。
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* ワークスタイル軸 */}
-            <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl p-6 border-2 border-green-200">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="bg-green-500 rounded-full p-3">
-                  <TrendingUp className="w-6 h-6 text-white" />
-                </div>
-                <h3 className="text-xl font-bold text-slate-800">ワークスタイル軸</h3>
-              </div>
-              <p className="text-slate-700 mb-4">
-                仕事や作業でのあなたの「進め方」を表します。
-              </p>
-              <div className="space-y-3">
-                <div className="bg-white/60 rounded-lg p-4">
-                  <div className="flex items-center gap-2 mb-2">
-                    <Shield className="w-5 h-5 text-green-600" />
-                    <span className="font-semibold text-slate-800">Persistent (粘り強く)</span>
-                  </div>
-                  <p className="text-sm text-slate-600">
-                    量と質を重視し、最後まで粘り強くやり切るタイプ。
-                  </p>
-                </div>
-                <div className="bg-white/60 rounded-lg p-4">
-                  <div className="flex items-center gap-2 mb-2">
-                    <Sparkles className="w-5 h-5 text-emerald-600" />
-                    <span className="font-semibold text-slate-800">Quick (効率的に)</span>
-                  </div>
-                  <p className="text-sm text-slate-600">
-                    必要なところを押さえて、効率的に進めるタイプ。
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
 
-        <div className="bg-white rounded-2xl shadow-lg p-8 md:p-12 mb-8">
-          <h2 className="text-3xl font-bold text-slate-800 mb-4 text-center">
-            16の仮面タイプ
-          </h2>
-          <p className="text-center text-slate-600 mb-8">
-            4つの軸の組み合わせで、16種類の仮面タイプが生まれます。<br />
-            MTPA（仮面診断）で外面性格診断を行い、あなたはどのタイプでしょうか？
-          </p>
-          <TypeSlider />
-          <div className="mt-6 text-center">
-            <button
-              onClick={() => navigate('/types')}
-              className="inline-block px-8 py-3 bg-slate-800 text-white font-semibold rounded-lg hover:bg-slate-700 transition-colors"
+        <div ref={questionsContainerRef} className="space-y-6 mb-8">
+          {firstPageQuestions.map((question, index) => (
+            <div
+              key={question.id}
+              ref={(el) => {
+                questionCardRefs.current[question.id] = el;
+              }}
+              className="bg-white rounded-2xl shadow-lg p-6 md:p-8 scroll-mt-24"
             >
-              全16タイプ一覧を見る
-            </button>
-          </div>
+              <div className="mb-6">
+                <span className="text-sm font-semibold text-slate-500">
+                  質問 {index + 1}
+                </span>
+                <h2 className="text-xl md:text-2xl font-bold text-slate-800 mt-2">
+                  {question.text}
+                </h2>
+              </div>
+
+              <ScaleSelector
+                optionA={question.options.A.text}
+                optionB={question.options.B.text}
+                selectedLevel={answers[question.id]}
+                onSelect={(level) => handleAnswer(question.id, level)}
+              />
+            </div>
+          ))}
+        </div>
+
+        <div className="text-center">
+          <button
+            ref={nextButtonRef}
+            onClick={() => navigate('/diagnosis', { state: { answers } })}
+            disabled={firstPageQuestions.some(q => !answers[q.id])}
+            className="bg-slate-800 hover:bg-slate-700 text-white font-bold text-lg px-12 py-4 rounded-full shadow-lg transition-all duration-200 transform hover:scale-105 disabled:bg-slate-400 disabled:cursor-not-allowed disabled:transform-none"
+          >
+            次へ
+          </button>
+          <p className="text-sm text-slate-500 mt-4">
+            全40問の診断を完了すると、あなたの仮面タイプが分かります
+          </p>
+        </div>
+
+        <div className="text-center mb-8">
+          <button
+            onClick={() => navigate('/about')}
+            className="text-slate-600 hover:text-slate-800 font-semibold underline underline-offset-4"
+          >
+            仮面診断とは？ →
+          </button>
         </div>
 
         <div className="bg-white rounded-2xl shadow-lg p-8 md:p-12 mb-8">
@@ -454,10 +347,6 @@ export default function TopPage() {
           >
             診断を始める
           </button>
-          <TermsConsentNotice
-            className="mt-3 text-xs md:text-sm text-slate-500"
-            linkClassName="underline underline-offset-4 hover:text-slate-700"
-          />
           <p className="text-sm text-slate-500 mt-4">
             所要時間: 約5分 | 質問数: 40問
           </p>

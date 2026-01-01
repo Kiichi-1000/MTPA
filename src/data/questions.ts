@@ -2,12 +2,12 @@ import { Question } from "../types/diagnosis";
 
 export const questions: Question[] = [
   {
-    id: 1,
-    axis: "tension",
-    text: "学校や職場でちょっとしんどい日に、人前に出るときの自分に近いのは？",
+    id: 8,
+    axis: "position",
+    text: "少し大きな仕事のとき、自分が就きたい役割に近いのは？",
     options: {
-      A: { text: "いつも通り普通に振る舞える", typeCode: "S" },
-      B: { text: "無理に明るく振る舞おうとしても、「今日どうしたの？」「疲れてない？」と聞かれることがある", typeCode: "M" }
+      A: { text: "タスクや進捗を仕切る側", typeCode: "F" },
+      B: { text: "全体の進行を任せて、自分の担当分を終わらせることに集中する側", typeCode: "B" }
     }
   },
   {
@@ -20,12 +20,39 @@ export const questions: Question[] = [
     }
   },
   {
-    id: 3,
+    id: 7,
     axis: "work",
-    text: "自分の「キャラ」としてアピールしたいのは、どちらに近いですか？",
+    text: "クラスメイトや同僚からのあなたのイメージとして近いのはどちらですか",
     options: {
-      A: { text: "「量も質もとにかくやる」というイメージ。", typeCode: "P" },
-      B: { text: "「必要なところだけ押さえる人」というイメージ。", typeCode: "Q" }
+      A: { text: "「真面目で努力家」に見えていそう。", typeCode: "P" },
+      B: { text: "「要領がよく、賢い人」に見えていそう。", typeCode: "Q" }
+    }
+  },
+  {
+    id: 9,
+    axis: "work",
+    text: "人を評価する上で重視したいのは",
+    options: {
+      A: { text: "結果が出ているかどうかだけでなく、見えにくい努力や過程も含めて評価してあげたい", typeCode: "P" },
+      B: { text: "最終的な成果やアウトプットを中心に見て、結果ベースで評価したい", typeCode: "Q" }
+    }
+  },
+  {
+    id: 10,
+    axis: "tension",
+    text: "初対面の異性（または気になる相手）から、どんなふうに思われたい？",
+    options: {
+      A: { text: "「この人おもしろそう」「一緒にいたら楽しそう」と思われたい", typeCode: "S" },
+      B: { text: "「この人話しやすそう」「安心して相談できそう」と思われたい", typeCode: "M" }
+    }
+  },
+  {
+    id: 1,
+    axis: "tension",
+    text: "学校や職場でちょっとしんどい日に、人前に出るときの自分に近いのは？",
+    options: {
+      A: { text: "いつも通り普通に振る舞える", typeCode: "S" },
+      B: { text: "無理に明るく振る舞おうとしても、「今日どうしたの？」「疲れてない？」と聞かれることがある", typeCode: "M" }
     }
   },
   {
@@ -56,39 +83,12 @@ export const questions: Question[] = [
     }
   },
   {
-    id: 7,
+    id: 3,
     axis: "work",
-    text: "クラスメイトや同僚からのあなたのイメージとして近いのはどちらですか",
+    text: "自分の「キャラ」としてアピールしたいのは、どちらに近いですか？",
     options: {
-      A: { text: "「真面目で努力家」に見えていそう。", typeCode: "P" },
-      B: { text: "「要領がよく、賢い人」に見えていそう。", typeCode: "Q" }
-    }
-  },
-  {
-    id: 8,
-    axis: "position",
-    text: "少し大きな仕事のとき、自分が就きたい役割に近いのは？",
-    options: {
-      A: { text: "タスクや進捗を仕切る側", typeCode: "F" },
-      B: { text: "全体の進行を任せて、自分の担当分を終わらせることに集中する側", typeCode: "B" }
-    }
-  },
-  {
-    id: 9,
-    axis: "work",
-    text: "人を評価する上で重視したいのは",
-    options: {
-      A: { text: "結果が出ているかどうかだけでなく、見えにくい努力や過程も含めて評価してあげたい", typeCode: "P" },
-      B: { text: "最終的な成果やアウトプットを中心に見て、結果ベースで評価したい", typeCode: "Q" }
-    }
-  },
-  {
-    id: 10,
-    axis: "tension",
-    text: "初対面の異性（または気になる相手）から、どんなふうに思われたい？",
-    options: {
-      A: { text: "「この人おもしろそう」「一緒にいたら楽しそう」と思われたい", typeCode: "S" },
-      B: { text: "「この人話しやすそう」「安心して相談できそう」と思われたい", typeCode: "M" }
+      A: { text: "「量も質もとにかくやる」というイメージ。", typeCode: "P" },
+      B: { text: "「必要なところだけ押さえる人」というイメージ。", typeCode: "Q" }
     }
   },
   {
