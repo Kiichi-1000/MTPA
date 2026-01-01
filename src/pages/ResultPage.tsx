@@ -238,6 +238,8 @@ export default function ResultPage() {
                 <img
                   src={maskType.image}
                   alt={`${maskType.name}（${maskType.code}）タイプの診断結果画像 - MTPA外面性格診断`}
+                  width={800}
+                  height={600}
                   loading="eager"
                   decoding="async"
                   className="absolute inset-0 w-full h-full object-contain object-center"

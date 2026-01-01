@@ -14,12 +14,20 @@
     <link rel="manifest" href="/manifest.json" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>仮面診断 - MTPA (Mask Type Personalize App)</title>
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EHC6XC46PM"></script>
     <script>
+      // Google Analytics を遅延読み込み（レンダリングブロッキングを削減）
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
       gtag('config', 'G-EHC6XC46PM');
+      
+      // ページ読み込み後にAnalyticsをロード
+      window.addEventListener('load', function() {
+        const script = document.createElement('script');
+        script.async = true;
+        script.src = 'https://www.googletagmanager.com/gtag/js?id=G-EHC6XC46PM';
+        document.head.appendChild(script);
+      });
     </script>
     <meta name="description" content="MTPA（仮面診断）｜学校・職場など「人前での自分（仮面）」のふるまいを4軸×16タイプに分類する診断サイト" />
     <link rel="canonical" href="https://masktype.synthera.jp/" />

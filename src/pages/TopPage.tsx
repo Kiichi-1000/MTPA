@@ -2,8 +2,8 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Users, TrendingUp, Shield } from 'lucide-react';
 import { applyJsonLd, applySeoMeta } from '../utils/seo';
-import heroImage from '../assets/Hero.png';
-import phoneHeroImage from '../assets/phonehero.jpeg';
+import heroImage from '../assets/Heroresize.jpg';
+import phoneHeroImage from '../assets/phoneHeroresize.jpg';
 import { SITE_ALT_NAME, SITE_NAME, CONTACT_EMAIL, OPERATOR_NAME } from '../data/site';
 import { questions } from '../data/questions';
 import { AnswerLevel } from '../types/diagnosis';
@@ -75,6 +75,13 @@ export default function TopPage() {
   }, [answers, firstPageQuestions, scrollToElement]);
 
   useEffect(() => {
+    // LCP改善: ヒーロー画像のpreload
+    const preloadLink = document.createElement('link');
+    preloadLink.rel = 'preload';
+    preloadLink.as = 'image';
+    preloadLink.href = phoneHeroImage;
+    document.head.appendChild(preloadLink);
+
     const origin = window.location.origin;
     applySeoMeta({
       title: `MTPA（仮面診断）で外面性格診断 - 16タイプ性格診断ツール | ${SITE_NAME}`,
@@ -122,11 +129,13 @@ export default function TopPage() {
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
       <section className="relative overflow-hidden text-white pt-0 pb-8 md:pb-16 md:pt-20 min-h-[60vh] md:min-h-[85vh]">
         <picture>
-          <source media="(min-width: 768px)" srcSet={heroImage} />
+          <source media="(min-width: 768px)" srcSet={heroImage} width="1376" height="768" />
           <img
             src={phoneHeroImage}
             alt=""
             aria-hidden="true"
+            width="768"
+            height="852"
             className="absolute inset-0 w-full h-full object-cover"
             loading="eager"
             decoding="async"

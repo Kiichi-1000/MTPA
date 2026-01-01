@@ -3,8 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { Sun, Moon, ArrowRight, ArrowLeft, Heart, Shield as ShieldIcon, Target, TrendingUp, Sparkles } from 'lucide-react';
 import { applySeoMeta, applyJsonLd } from '../utils/seo';
 import { SITE_NAME, SITE_ALT_NAME } from '../data/site';
-import heroImage from '../assets/Hero.png';
-import phoneHeroImage from '../assets/phonehero.jpeg';
+import heroImage from '../assets/Heroresize.jpg';
+import phoneHeroImage from '../assets/phoneHeroresize.jpg';
 import TypeSlider from '../components/TypeSlider';
 
 export default function AboutPage() {
@@ -39,15 +39,16 @@ export default function AboutPage() {
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
       <section className="relative overflow-hidden text-white py-20 md:py-32">
         <picture>
-          <source media="(min-width: 768px)" srcSet={heroImage} />
+          <source media="(min-width: 768px)" srcSet={heroImage} width="1376" height="768" />
           <img
             src={phoneHeroImage}
             alt=""
             aria-hidden="true"
+            width="768"
+            height="852"
             className="absolute inset-0 w-full h-full object-cover"
             loading="eager"
             decoding="async"
-            fetchPriority="high"
           />
         </picture>
         <div className="absolute inset-0 bg-gradient-to-br from-slate-900/80 via-slate-800/70 to-slate-900/85" />

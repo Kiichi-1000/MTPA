@@ -72,6 +72,8 @@ export default function TypeSlider() {
           <img
             src={currentType[1].image}
             alt={currentType[1].name}
+            width={800}
+            height={600}
             className="w-full h-full object-cover object-center transition-opacity duration-500"
             loading="lazy"
             decoding="async"
