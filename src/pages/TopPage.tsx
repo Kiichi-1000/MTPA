@@ -15,6 +15,35 @@ export default function TopPage() {
   
   // 最初の5問を取得
   const firstPageQuestions = useMemo(() => questions.slice(0, 5), []);
+  const faqItems = useMemo(
+    () => [
+      {
+        q: '仮面診断（性格診断）とは？',
+        a: 'MTPAは、学校・職場など「人前での自分（仮面）」のふるまいを、4つの軸×16タイプで整理する無料の性格診断です。',
+      },
+      {
+        q: 'どんな気持ちで答えればいい？',
+        a: 'プライベートの自分ではなく、周りの目がある場面での「いつもの振る舞い」を思い浮かべて回答してください。',
+      },
+      {
+        q: '所要時間はどれくらい？',
+        a: '全40問（6段階）で、目安は約5分です。',
+      },
+      {
+        q: '結果は何が分かる？',
+        a: 'あなたの外面性格（仮面）を表す4文字コードと、その特徴が分かります。',
+      },
+      {
+        q: '個人情報の入力は必要？',
+        a: 'ニックネームやメールアドレスなどの入力は不要です。',
+      },
+      {
+        q: '無料で使える？',
+        a: 'はい。診断〜結果表示まで無料で利用できます。',
+      },
+    ],
+    [],
+  );
   const questionsContainerRef = useRef<HTMLDivElement>(null);
   const questionCardRefs = useRef<Record<number, HTMLDivElement | null>>({});
   const nextButtonRef = useRef<HTMLButtonElement>(null);
@@ -79,13 +108,14 @@ export default function TopPage() {
     const preloadLink = document.createElement('link');
     preloadLink.rel = 'preload';
     preloadLink.as = 'image';
-    preloadLink.href = phoneHeroImage;
+    preloadLink.href = window.matchMedia('(min-width: 768px)').matches ? heroImage : phoneHeroImage;
     document.head.appendChild(preloadLink);
 
     const origin = window.location.origin;
     applySeoMeta({
-      title: `MTPA（仮面診断）で外面性格診断 - 16タイプ性格診断ツール | ${SITE_NAME}`,
-      description: 'MTPA（仮面診断）は、学校・職場など「人前での自分（仮面）」の外面性格診断ツールです。4軸×16タイプで性格診断・ヴェール診断を行い、あなたの外面的な振る舞いを分析します。',
+      title: '仮面診断｜MTPA（外面性格診断）- 16タイプ性格診断ツール',
+      description:
+        '仮面診断（性格診断）MTPAは、学校・職場など「人前での自分（仮面）」のふるまいを4軸×16タイプに分類する無料診断です。全40問・約5分で、あなたの外面性格タイプが分かります。',
       canonicalUrl: `${origin}/`,
     });
 
@@ -100,7 +130,8 @@ export default function TopPage() {
           url: `${origin}/`,
           email: CONTACT_EMAIL,
           logo: `${origin}/og.svg`,
-          description: "MTPA（仮面診断）は、学校・職場など「人前での自分（仮面）」の外面性格診断・ヴェール診断ツールです。4軸×16タイプで性格診断を行い、あなたの外面的な振る舞いを分析します。",
+          description:
+            "仮面診断（性格診断）MTPAは、学校・職場など「人前での自分（仮面）」のふるまいを4軸×16タイプに分類する無料の外面性格診断ツールです。",
         },
         {
           "@type": "WebSite",
@@ -116,14 +147,30 @@ export default function TopPage() {
           "@type": "WebPage",
           "@id": `${origin}/#webpage`,
           url: `${origin}/`,
-          name: `MTPA（仮面診断）で外面性格診断 - 16タイプ性格診断ツール | ${SITE_NAME}`,
-          description: 'MTPA（仮面診断）は、学校・職場など「人前での自分（仮面）」の外面性格診断ツールです。4軸×16タイプで性格診断・ヴェール診断を行い、あなたの外面的な振る舞いを分析します。',
+          name: '仮面診断｜MTPA（外面性格診断）- 16タイプ性格診断ツール',
+          description:
+            '仮面診断（性格診断）MTPAは、学校・職場など「人前での自分（仮面）」のふるまいを4軸×16タイプに分類する無料診断です。全40問・約5分で、あなたの外面性格タイプが分かります。',
           isPartOf: { "@id": `${origin}/#website` },
           inLanguage: "ja-JP",
-        }
+        },
+        {
+          "@type": "FAQPage",
+          "@id": `${origin}/#faqpage`,
+          url: `${origin}/#faq`,
+          name: "仮面診断（性格診断）に関するよくある質問",
+          isPartOf: { "@id": `${origin}/#website` },
+          mainEntity: faqItems.map((item) => ({
+            "@type": "Question",
+            name: item.q,
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: item.a,
+            },
+          })),
+        },
       ]
     });
-  }, []);
+  }, [faqItems]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
@@ -252,7 +299,6 @@ export default function TopPage() {
       </section>
 
       <div className="max-w-4xl mx-auto px-4 py-12 md:py-16">
-
         {/* 診断ページの1枚目を表示 */}
         <div className="mb-6">
           <p className="text-center text-slate-500 text-sm">
@@ -363,6 +409,27 @@ export default function TopPage() {
             所要時間: 約5分 | 質問数: 40問
           </p>
         </div>
+
+        <section id="faq" className="mt-10 md:mt-12">
+          <div className="bg-white rounded-2xl shadow-lg p-6 md:p-8">
+            <h2 className="text-2xl md:text-3xl font-bold text-slate-800">
+              仮面診断（性格診断）とは？
+            </h2>
+            <p className="text-slate-600 mt-3">
+              MTPAは、学校・職場など「人前での自分（仮面）」のふるまいを軸にした外面性格診断です。
+              無料・約5分で、あなたの仮面タイプ（16タイプ）をチェックできます。
+            </p>
+
+            <dl className="mt-6 space-y-5">
+              {faqItems.map((item) => (
+                <div key={item.q} className="border-t border-slate-100 pt-5">
+                  <dt className="font-semibold text-slate-800">Q. {item.q}</dt>
+                  <dd className="text-slate-600 mt-2">A. {item.a}</dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+        </section>
       </div>
     </div>
   );
