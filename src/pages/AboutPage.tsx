@@ -68,7 +68,7 @@ export default function AboutPage() {
             {SITE_ALT_NAME}
           </p>
           <p className="text-lg md:text-xl text-slate-300 mb-10 max-w-2xl mx-auto">
-            外面性格診断・ヴェール診断で人前での「あなたの仮面」を診断します<br />
+            「あなたの仮面」を診断します<br />
             社会的な場面でのあなたの振る舞いを16タイプに分類する性格診断ツール
           </p>
           <button
