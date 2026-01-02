@@ -37,7 +37,7 @@ export default function AboutPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
-      <section className="relative overflow-hidden text-white py-20 md:py-32 h-[60vh] md:h-[85vh]" style={{ minHeight: '60vh' }}>
+      <section className="relative overflow-hidden text-white py-20 md:py-32 h-[60svh] md:h-[85vh]">
         <div className="absolute inset-0 w-full h-full">
           <picture className="absolute inset-0 w-full h-full">
             <source media="(min-width: 768px)" srcSet={heroImage} width="1376" height="768" />

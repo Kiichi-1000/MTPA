@@ -127,7 +127,7 @@ export default function TopPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
-      <section className="relative overflow-hidden text-white pt-0 pb-8 md:pb-16 md:pt-20 h-[60vh] md:h-[85vh]" style={{ minHeight: '60vh' }}>
+      <section className="relative overflow-hidden text-white pt-0 pb-8 md:pb-16 md:pt-20 h-[60svh] md:h-[85vh]">
         <div className="absolute inset-0 w-full h-full" style={{ aspectRatio: 'auto' }}>
           <picture className="absolute inset-0 w-full h-full">
             <source media="(min-width: 768px)" srcSet={heroImage} width="1376" height="768" />
