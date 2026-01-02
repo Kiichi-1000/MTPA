@@ -1,3 +1,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* フォント読み込み最適化（CLS改善） */
+@layer base {
+  * {
+    font-display: swap;
+  }
+}
