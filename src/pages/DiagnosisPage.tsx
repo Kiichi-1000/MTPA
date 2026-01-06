@@ -9,7 +9,6 @@ import { saveDiagnosisResult } from '../lib/database';
 import { SITE_ALT_NAME, SITE_NAME } from '../data/site';
 import { trackDiagnosisStart, trackDiagnosisComplete } from '../utils/analytics';
 import { ScaleSelector } from '../components/ScaleSelector';
-import MusicPlayer, { MusicPlayerRef } from '../components/MusicPlayer';
 
 const QUESTIONS_PER_PAGE = 5;
 const TOTAL_PAGES = 8;
@@ -23,7 +22,6 @@ export default function DiagnosisPage() {
   const questionsContainerRef = useRef<HTMLDivElement>(null);
   const questionCardRefs = useRef<Record<number, HTMLDivElement | null>>({});
   const nextButtonRef = useRef<HTMLButtonElement>(null);
-  const musicPlayerRef = useRef<MusicPlayerRef>(null);
 
   const startIndex = currentPage * QUESTIONS_PER_PAGE;
   const endIndex = Math.min(startIndex + QUESTIONS_PER_PAGE, questions.length);
@@ -159,9 +157,6 @@ export default function DiagnosisPage() {
     if (!allCurrentPageAnswered) return;
 
     if (isLastPage) {
-      // ページ遷移前に音楽を停止
-      musicPlayerRef.current?.stop();
-
       const scores = calculateScores(questions, answers);
       const typeCode = determineTypeCode(scores);
 
@@ -221,10 +216,6 @@ export default function DiagnosisPage() {
           <p className="text-center text-slate-500 text-sm">
             「人前での自分」をイメージして回答してください
           </p>
-        </div>
-
-        <div className="mb-6">
-          <MusicPlayer ref={musicPlayerRef} />
         </div>
 
         <div ref={questionsContainerRef} className="space-y-6 mb-8">
