@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Users, TrendingUp, Shield } from 'lucide-react';
+import { Users, TrendingUp, Shield, Heart, ArrowRight } from 'lucide-react';
 import { applyJsonLd, applySeoMeta } from '../utils/seo';
 import heroImage from '../assets/Heroresize.jpg';
 import phoneHeroImage from '../assets/phoneHeroresize.jpg';
@@ -408,6 +408,40 @@ export default function TopPage() {
           <p className="text-sm text-slate-500 mt-4">
             所要時間: 約5分 | 質問数: 40問
           </p>
+        </div>
+
+        {/* duo.synthera.jp 広告バナー */}
+        <div className="mt-10 md:mt-12">
+          <a
+            href="https://duo.synthera.jp"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="block group"
+          >
+            <div className="bg-gradient-to-r from-pink-50 via-purple-50 to-blue-50 rounded-xl p-5 md:p-6 border-2 border-pink-200 hover:border-pink-300 transition-all duration-300 hover:shadow-lg">
+              <div className="flex items-start gap-4">
+                <div className="flex-shrink-0">
+                  <div className="bg-gradient-to-br from-pink-500 to-purple-600 rounded-lg p-3 group-hover:scale-110 transition-transform duration-300">
+                    <Heart className="w-6 h-6 md:w-7 md:h-7 text-white" />
+                  </div>
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="text-sm font-bold text-pink-600 bg-pink-100 px-2 py-1 rounded">
+                      duo.synthera.jp
+                    </span>
+                    <ArrowRight className="w-4 h-4 text-pink-600 group-hover:translate-x-1 transition-transform duration-300" />
+                  </div>
+                  <h4 className="text-lg md:text-xl font-bold text-slate-800 mb-2 group-hover:text-pink-600 transition-colors duration-300">
+                    距離感診断
+                  </h4>
+                  <p className="text-sm md:text-base text-slate-600 leading-relaxed">
+                    友達や恋人との距離感を知る、距離感や距離感に関する二人の相性を診断できるアプリ
+                  </p>
+                </div>
+              </div>
+            </div>
+          </a>
         </div>
 
         <section id="faq" className="mt-10 md:mt-12">
